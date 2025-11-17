@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?><?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondo_app"
+    android:padding="32dp"
+    tools:context=".activity_onboarding">
+
+    <!-- Grup superior: Logo i eslògan -->
+
+        <TextView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="serif"
+            android:text="@string/allercheck"
+            android:textColor="@color/texto_principal"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            android:layout_marginTop="100dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:drawableEndCompat="@drawable/baseline_check_24"
+            app:drawableTint="@color/accent"/>
+    <TextView
+        android:id="@+id/slogan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/eslogan"
+        android:textColor="@color/texto_secundari"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/listadito"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <!-- Grup central: Punts destacats -->
+
+    <!-- Botó inferior -->
+    <LinearLayout
+        android:id="@+id/listadito"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/slogan"
+        android:layout_marginTop="70dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:text="@string/punt_1"
+            android:textColor="@color/texto_principal"
+            android:textSize="16sp"
+            app:drawableStartCompat="@drawable/baseline_search_24"
+            app:drawableTint="@color/accent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:text="@string/punt_2"
+            android:textColor="@color/texto_principal"
+            android:textSize="16sp"
+            app:drawableStartCompat="@drawable/baseline_family_restroom_24"
+            app:drawableTint="@color/accent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:text="@string/punt_3"
+            android:textColor="@color/texto_principal"
+            android:textSize="16sp"
+            app:drawableStartCompat="@drawable/baseline_security_24"
+            app:drawableTint="@color/accent" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnComencar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/accent"
+        android:padding="16dp"
+        android:paddingTop="100dp"
+        android:text="@string/comencar"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="70dp"
+        app:layout_constraintTop_toBottomOf="@+id/listadito" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
