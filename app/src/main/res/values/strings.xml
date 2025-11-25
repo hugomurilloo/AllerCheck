@@ -18,4 +18,17 @@
     <string name="accepto_condicions">Accepto Condicions</string>
     <string name="continuar_sense_compte">Continuar sense compte</string>
     <string name="flechaatras">flechaAtras</string>
+    <string name="perfil">Perfil</string>
+    <string name="rese_as">Reseñas</string>
+    <string name="la_meva_informaci">La meva informació:</string>
+    <string name="joan_mart_nez">Joan Martínez</string>
+    <string name="joan_gmail_com">joan@gmail.com</string>
+    <string name="les_meves_resriccions">Les meves resriccions</string>
+    <string name="les_meves_ressenyes">Les meves ressenyes</string>
+    <string name="tancar_sessi">Tancar Sessió</string>
+    <string name="favoritos">favoritos</string>
+    <string name="inicio">inicio</string>
+    <string name="nova_ressenya">Nova Ressenya</string>
+    <string name="escriu_la_teva_ressenya">Escriu la teva ressenya:</string>
+
 </resources>
