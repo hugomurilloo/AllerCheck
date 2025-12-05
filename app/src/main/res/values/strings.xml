@@ -30,5 +30,32 @@
     <string name="inicio">inicio</string>
     <string name="nova_ressenya">Nova Ressenya</string>
     <string name="escriu_la_teva_ressenya">Escriu la teva ressenya:</string>
+    <string name="confirma_seguretat">Confirma Seguretat</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="guardar">Guardar</string>
+    <string name="prefer_ncies">Preferències</string>
+    <string name="les_meves_al_l_rgies">Les meves al·lèrgies:</string>
+    <string name="sense_gluten">Sense gluten</string>
+    <string name="sense_lactosa">Sense lactosa</string>
+    <string name="fruits_secs">Fruits secs</string>
+    <string name="marisc">Marisc</string>
+    <string name="vega">Vegà</string>
+    <string name="halal">Halal</string>
+    <string name="kosher">Kosher</string>
+    <string name="ou">Ou</string>
+    <string name="_4_9">4,9</string>
+    <string name="japon_s">Japonès</string>
+    <string name="carrer_major_23">Carrer major, 23</string>
+    <string name="telefon">telefon</string>
+    <string name="ubicaci">Ubicació</string>
+    <string name="protocols">Protocols:</string>
+    <string name="_34_623_45_98_12">+34 623 45 98 12</string>
+    <string name="cuina_separada">• Cuina Separada</string>
+    <string name="olis_exclusius">• Olis Exclusius</string>
+    <string name="perfecte">‣ Perfecte!</string>
+    <string name="molt_segur">‣ Molt segur!</string>
+    <string name="afegir_ressenya">Afegir Ressenya</string>
+    <string name="ressenyes">Ressenyes:</string>
+    <string name="_20_30">20€ - 30€</string>
 
 </resources>
