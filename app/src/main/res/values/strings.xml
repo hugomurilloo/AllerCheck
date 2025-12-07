@@ -57,5 +57,9 @@
     <string name="afegir_ressenya">Afegir Ressenya</string>
     <string name="ressenyes">Ressenyes:</string>
     <string name="_20_30">20€ - 30€</string>
+    <string name="cercar">Cercar...</string>
+    <string name="filters">Filters:</string>
+    <string name="x_gluten">x gluten</string>
+    <string name="x_lacotsa">x lacotsa</string>
 
 </resources>

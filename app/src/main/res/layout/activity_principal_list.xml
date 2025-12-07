@@ -5,6 +5,121 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/fondo_app"
     tools:context=".activity_principal_list">
+    <LinearLayout
+        android:id="@+id/cabezeraLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/fondo_app"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+
+        >
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/fondo_app"
+            android:contentDescription="@string/flechaatras"
+            android:src="@drawable/baseline_preferencias_24"
+            app:layout_constraintBottom_toBottomOf="@id/lineaLay"
+            app:tint="@color/verde"
+            />
+
+        <SearchView
+            android:id="@+id/searchView"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:iconifiedByDefault="false"
+            android:background="@drawable/search_view_bg"
+            android:layout_weight="2"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/fondo_app"
+            android:contentDescription="@string/ressenyes"
+            android:src="@drawable/baseline_star_rate_24"
+            app:layout_constraintBottom_toBottomOf="@id/lineaLay"
+            app:tint="@color/verde"
+            />
+
+    </LinearLayout>
+    <View
+        android:id="@+id/lineaLay"
+        android:layout_width="match_parent"
+        android:background="@color/verde"
+        android:layout_height="5dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/cabezeraLay"/>
+
+    <LinearLayout
+        android:id="@+id/llFilters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/lineaLay"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/filters"
+            android:textStyle="bold"
+            android:fontFamily="serif"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:text="@string/x_gluten"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="11sp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            />
+        <TextView
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:text="@string/x_lacotsa"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="11sp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginStart="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_background"
+        app:layout_constraintTop_toBottomOf="@+id/llFilters"
+        android:text="@string/x_lacotsa"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
