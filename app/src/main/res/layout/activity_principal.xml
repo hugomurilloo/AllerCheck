@@ -6,58 +6,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/fondo_app"
-    tools:context=".activity_favorite">
+    tools:context=".activity_principal">
     <LinearLayout
         android:id="@+id/cabezeraLay"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@color/fondo_app"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
 
-        <TextView
+        >
+        <ImageButton
+            android:id="@+id/btnPref"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/preferits"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:letterSpacing="0.05"
-            android:fontFamily="serif" />
+            android:backgroundTint="@color/fondo_app"
+            android:contentDescription="@string/flechaatras"
+            android:src="@drawable/baseline_preferencias_24"
+            app:layout_constraintBottom_toBottomOf="@id/lineaLay"
+            app:tint="@color/verde"
+            />
+
+        <SearchView
+            android:id="@+id/searchView"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:iconifiedByDefault="false"
+            android:background="@drawable/search_view_bg"
+            android:hint="@string/cercar"
+            android:queryHint="@string/cercar"
+            android:layout_marginStart="5dp"
+            />
+
+        <ImageButton
+            android:id="@+id/btnRess"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/fondo_app"
+            android:contentDescription="@string/ressenyes"
+            android:src="@drawable/baseline_star_rate_24"
+            app:layout_constraintBottom_toBottomOf="@id/lineaLay"
+            app:tint="@color/verde"
+            android:layout_marginStart="5dp"
+            />
 
     </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/btnResenas"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:scaleType="fitCenter"
-        android:padding="8dp"
-        android:backgroundTint="@color/fondo_app"
-        android:contentDescription="@string/rese_as"
-        android:src="@drawable/baseline_star_rate_24"
-        app:tint="@color/verde"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/lineaLay"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="10dp"/>
-
-    <ImageButton
-        android:id="@+id/btnAtras"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/fondo_app"
-        android:contentDescription="@string/flechaatras"
-        android:src="@drawable/baseline_arrow_back_ios_new_24"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/lineaLay"
-        app:tint="@color/verde"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="10dp"/>
-
     <View
         android:id="@+id/lineaLay"
         android:layout_width="match_parent"
@@ -66,13 +61,61 @@
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/cabezeraLay"/>
 
+    <LinearLayout
+        android:id="@+id/llFilters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/lineaLay"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/filters"
+            android:textStyle="bold"
+            android:fontFamily="serif"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:text="@string/x_gluten"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="11sp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            />
+        <TextView
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:text="@string/x_lacotsa"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="11sp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/tvRestaurant1"
         android:layout_marginStart="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/button_background"
-        app:layout_constraintTop_toBottomOf="@+id/lineaLay"
+        app:layout_constraintTop_toBottomOf="@+id/llFilters"
         app:layout_constraintStart_toStartOf="parent"
         android:fontFamily="serif"
         android:layout_marginTop="30dp"
@@ -199,32 +242,6 @@
             android:textStyle="bold"
             />
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/llDelete1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/llVerificat1"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        >
-        <RadioButton
-            android:id="@+id/csR1"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_delete_24"
-            app:tint="@color/verde"
-            android:contentDescription="@string/borrar"
-            android:layout_weight="1"
-            android:padding="5dp"
-            />
-    </LinearLayout>
 
     <TextView
         android:id="@+id/tvRestaurant2"
@@ -232,7 +249,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/button_background"
-        app:layout_constraintTop_toBottomOf="@+id/llDelete1"
+        app:layout_constraintTop_toBottomOf="@+id/llVerificat1"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="30dp"
         android:text="@string/la_pizzeria"
@@ -360,49 +377,130 @@
             android:textStyle="bold"
             />
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/llDelete2"
+
+
+    <TextView
+        android:id="@+id/tvRestaurant3"
+        android:layout_marginStart="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/llVerificat2"
+        android:background="@drawable/button_background"
+        app:layout_constraintTop_toBottomOf="@+id/llVerificat2"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="40dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/veggie_paradise"
+        android:textColor="@color/white"
+        android:fontFamily="serif"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        />
+    <LinearLayout
+        android:id="@+id/llEstrellas3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvRestaurant3"
+        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="20dp"
-        android:orientation="horizontal"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="180dp"
+        android:gravity="center"
         >
-        <RadioButton
-            android:id="@+id/csRr1"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+        <ImageView
+            android:id="@+id/ivEee1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_star_rate_24"
+            app:tint="@color/verde"
+            android:contentDescription="@string/rese_as"
+            android:layout_weight="1"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
+            android:padding="5dp"
+            />
+        <ImageView
+            android:id="@+id/ivEee2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_star_rate_24"
+            app:tint="@color/verde"
+            android:contentDescription="@string/rese_as"
+            android:layout_weight="1"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
+            android:padding="5dp"
+            />
+        <ImageView
+            android:id="@+id/ivEee3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_star_rate_24"
+            app:tint="@color/verde"
+            android:contentDescription="@string/rese_as"
+            android:layout_weight="1"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
+            android:padding="5dp"
+            />
+        <ImageView
+            android:id="@+id/ivEee4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_star_rate_24"
+            app:tint="@color/verde"
+            android:contentDescription="@string/rese_as"
+            android:layout_weight="1"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
+            android:padding="5dp"
             />
 
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_4"
+            android:fontFamily="serif"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/llVerificat3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/llEstrellas3"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="40dp"
+        >
         <ImageView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/baseline_delete_24"
+            android:src="@drawable/baseline_warning_24"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
             app:tint="@color/verde"
-            android:contentDescription="@string/borrar"
+            android:contentDescription="@string/no_verificat"
             android:layout_weight="1"
             android:padding="5dp"
+            android:layout_marginStart="7dp"
+            />
+        <TextView
+            android:id="@+id/tvTipus3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_verificat"
+            android:fontFamily="serif"
+            android:layout_marginStart="10dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
             />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btnGuardar"
-        app:layout_constraintTop_toBottomOf="@id/llDelete2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:text="@string/guardar"
-        android:fontFamily="serif"
-        android:textStyle="bold"
-        android:textSize="25sp"
-        android:layout_marginTop="50dp"
-        android:backgroundTint="@color/verde"
-        app:cornerRadius="5dp"
-        android:padding="15dp"
-        />
 
     <LinearLayout
         android:id="@+id/navigationBar"
@@ -450,6 +548,8 @@
             android:contentDescription="@string/perfil"
             android:layout_weight="1"/>
     </LinearLayout>
+
+
 
 
 

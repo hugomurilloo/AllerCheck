@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/fondo_app"
@@ -25,76 +26,71 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:layout_marginTop="5dp"
+        android:id="@+id/slogan1Lay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/logo"
-        app:layout_constraintTop_toBottomOf="@+id/logo"
-        android:id="@+id/slogan1Lay"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
-        >
+        app:layout_constraintStart_toStartOf="@id/logo"
+        app:layout_constraintTop_toBottomOf="@+id/logo">
+
         <TextView
             android:id="@+id/slogan1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/eslogan1"
-            android:textStyle="italic"
             android:textColor="@color/texto_secundari"
             android:textSize="18sp"
-            />
+            android:textStyle="italic" />
+
         <View
             android:id="@+id/lineaS1"
             android:layout_width="148dp"
-            android:layout_marginStart="10dp"
-            android:background="@color/verde"
             android:layout_height="3dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="12dp"
-            app:layout_constraintTop_toBottomOf="@+id/cabezeraLay"
-            />
+            android:background="@color/verde" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/slogan2Lay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/listadito"
-        app:layout_constraintEnd_toEndOf="@id/logo"
-        app:layout_constraintTop_toBottomOf="@+id/slogan1Lay"
-        android:id="@+id/slogan2Lay"
         android:orientation="horizontal"
-        >
+        app:layout_constraintEnd_toEndOf="@id/logo"
+        app:layout_constraintTop_toBottomOf="@+id/slogan1Lay">
+        <!-- RESTRICCIÓN CORREGIDA: Eliminado layout_constraintBottom_toTopOf -->
+
         <View
             android:id="@+id/lineaS2"
             android:layout_width="94dp"
-            android:background="@color/verde"
             android:layout_height="3dp"
-            android:layout_marginTop="12dp"
             android:layout_marginEnd="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/cabezeraLay"
-            />
-    <TextView
-        android:id="@+id/slogan2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/eslogan2"
-        android:textStyle="italic"
-        android:textColor="@color/texto_secundari"
-        android:textSize="18sp"
-         />
+            android:layout_marginTop="12dp"
+            android:background="@color/verde" />
 
-        </LinearLayout>
+        <TextView
+            android:id="@+id/slogan2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/eslogan2"
+            android:textColor="@color/texto_secundari"
+            android:textSize="18sp"
+            android:textStyle="italic" />
+
+    </LinearLayout>
 
 
     <LinearLayout
         android:id="@+id/listadito"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
         android:gravity="start"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/slogan2Lay"
-        android:layout_marginTop="70dp"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/slogan2Lay">
 
         <TextView
             android:layout_width="wrap_content"
@@ -137,29 +133,29 @@
         android:id="@+id/btnComencar"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
         android:backgroundTint="@color/verde"
+        android:fontFamily="serif"
         android:padding="16dp"
-        android:paddingTop="100dp"
         android:text="@string/comencar"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:fontFamily="serif"
+        app:cornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="70dp"
-        app:layout_constraintTop_toBottomOf="@+id/listadito"
-        app:cornerRadius="5dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/listadito" />
 
     <Button
+        android:id="@+id/btnSinCopte"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/btnComencar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:backgroundTint="@color/fondo_app"
         android:text="@string/continuar_sense_compte"
         android:textColor="@color/verde"
-        android:backgroundTint="@color/fondo_app"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnComencar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

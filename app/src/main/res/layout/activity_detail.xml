@@ -24,7 +24,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/nova_ressenya"
+            android:text="@string/restaurant_tokyoo"
+            android:letterSpacing="0.05"
             android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -35,6 +36,7 @@
 
 
     <ImageButton
+        android:id="@+id/btnAtras"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/fondo_app"
@@ -60,7 +62,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/lineaLay"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="150dp"
         >
@@ -355,7 +357,7 @@
             />
     </LinearLayout>
     <Button
-        android:id="@+id/btnGuardar"
+        android:id="@+id/btnRess"
         app:layout_constraintTop_toBottomOf="@id/llRes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -370,8 +372,5 @@
         app:cornerRadius="5dp"
         android:padding="15dp"
         />
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

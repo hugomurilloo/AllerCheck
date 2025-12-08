@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">AllerCheck</string>
     <string name="allercheck">AllerCheck</string>
+    <string name="first_fragment_label">First Fragment</string>
     <string name="eslogan1">Menja sense por,</string>
     <string name="eslogan2">gaudeix amb confiança.</string>
     <string name="punt_1">✓ Filtres avançats i personalitzats</string>
-    <string name="punt_2">✓ Comunitat d'usuaris verificada</string>
+    <string name="punt_2">✓ Comunitat de usuaris verificada</string>
     <string name="punt_3">✓ Protocols de seguretat garantits</string>
     <string name="comencar">Començar</string>
     <string name="inici_sessi">Inici Sessió</string>
@@ -61,5 +62,20 @@
     <string name="filters">Filters:</string>
     <string name="x_gluten">x gluten</string>
     <string name="x_lacotsa">x lacotsa</string>
+    <string name="restaurant_tokyo">‣ Restaurant Tokyo</string>
+    <string name="verificat">Verificat</string>
+    <string name="_5">5</string>
+    <string name="la_pizzeria">‣ La Pizzeria</string>
+    <string name="veggie_paradise">‣ Veggie Paradise</string>
+    <string name="no_verificat">No Verificat</string>
+    <string name="_4">4</string>
+    <string name="preferits">Preferits</string>
+    <string name="restaurant_tokyoo">Restaurant Tokyo</string>
+    <string name="borrar">Borrar</string>
+    <string name="molt_bona">Molt bona experiència</string>
+    <string name="basic">Bàsic però segur</string>
+    <string name="les_meves_ressenyess">Les meves ressenyes</string>
+    <string name="atras">Atras</string>
+
 
 </resources>

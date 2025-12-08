@@ -1,41 +1,84 @@
 package com.allercheck
 
+import android.content.Intent
+import android.widget.Button
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.widget.ImageButton
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import com.allercheck.databinding.ActivityProfileBinding
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 
 class activity_profile : AppCompatActivity() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityProfileBinding
+    // VARIABLES
+    lateinit var btnAtras: ImageButton
+    lateinit var btnResenas: ImageButton
+    lateinit var btnRestriccions: Button
+    lateinit var btnRessenyes: Button
+    lateinit var btnTancarSessio: Button
+    lateinit var btnNav1: ImageButton
+    lateinit var btnNav2: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityProfileBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        setSupportActionBar(binding.toolbar)
-
-        val navController = findNavController(R.id.nav_host_fragment_content_activity_profile)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
-
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.fab).show()
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_profile)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
         }
-    }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_activity_profile)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
+        // INICIALIZAR
+        btnAtras = findViewById(R.id.btnAtras)
+        btnResenas = findViewById(R.id.btnResenas)
+        btnRestriccions = findViewById(R.id.btnRestriccions)
+        btnRessenyes = findViewById(R.id.btnRessenyes)
+        btnTancarSessio = findViewById(R.id.btnTancarSessio)
+        btnNav1 = findViewById(R.id.btnNav1)
+        btnNav2 = findViewById(R.id.btnNav2)
+
+        // BOTÓN "ATRAS"
+        btnAtras.setOnClickListener {
+            finish()
+        }
+
+        // BOTÓN "RESEÑAS" (Header)
+        btnResenas.setOnClickListener {
+            val intent = Intent(this, activity_review::class.java)
+            startActivity(intent)
+        }
+
+        // BOTÓN "LES MEVES RESTRICCIONS"
+        btnRestriccions.setOnClickListener {
+            val intent = Intent(this, activity_config_restrictions::class.java)
+            startActivity(intent)
+        }
+
+        // BOTÓN "LES MEVES RESSENYES"
+        btnRessenyes.setOnClickListener {
+            val intent = Intent(this, activity_review::class.java)
+            startActivity(intent)
+        }
+
+        // BOTÓN "TANCAR SESSIÓ"
+        btnTancarSessio.setOnClickListener {
+            val intent = Intent(this, activity_onboarding::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
+
+        // BOTÓN NAVEGACIÓN "INICIO"
+        btnNav1.setOnClickListener {
+            val intent = Intent(this, activity_principal::class.java)
+            startActivity(intent)
+        }
+
+        // BOTÓN NAVEGACIÓN "FAVORITOS"
+        btnNav2.setOnClickListener {
+            val intent = Intent(this, activity_favorite::class.java)
+            startActivity(intent)
+        }
     }
 }

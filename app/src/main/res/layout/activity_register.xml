@@ -36,9 +36,11 @@
     </LinearLayout>
 
     <ImageButton
+        android:id="@+id/btnAtras"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/fondo_app"
+        android:contentDescription="@string/atras"
         android:src="@drawable/baseline_arrow_back_ios_new_24"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/lineaLay"

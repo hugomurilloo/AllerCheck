@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:text="@string/prefer_ncies"
             android:textColor="@color/black"
+            android:letterSpacing="0.05"
             android:textSize="24sp"
             android:textStyle="bold"
             android:fontFamily="serif"
@@ -36,6 +37,7 @@
 
 
     <ImageButton
+        android:id="@+id/btnAtras"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/fondo_app"
@@ -63,7 +65,7 @@
         android:fontFamily="serif"
         app:layout_constraintTop_toBottomOf="@id/lineaLay"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_marginStart="30dp"
         android:textSize="20sp"
         android:textStyle="bold"/>

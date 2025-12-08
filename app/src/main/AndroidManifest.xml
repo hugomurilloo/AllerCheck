@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AllerCheck">
         <activity
+            android:name=".activity_principal"
+            android:exported="false" />
+        <activity
             android:name=".activity_review"
             android:exported="false" />
         <activity
@@ -31,9 +34,6 @@
             android:name=".activity_detail"
             android:exported="false" />
         <activity
-            android:name=".activity_principal_list"
-            android:exported="false" />
-        <activity
             android:name=".activity_register"
             android:exported="false" />
         <activity
@@ -41,9 +41,6 @@
             android:exported="false" />
         <activity
             android:name=".activity_onboarding"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
