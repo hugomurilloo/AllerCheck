@@ -2,13 +2,13 @@ package com.allercheck
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class activity_favorite : AppCompatActivity() {
 
@@ -17,8 +17,7 @@ class activity_favorite : AppCompatActivity() {
     lateinit var btnResenas: ImageButton
     lateinit var tvRestaurant1: TextView
     lateinit var tvRestaurant2: TextView
-    lateinit var btnNav1: ImageButton
-    lateinit var btnNav3: ImageButton
+    private lateinit var bottomNavigation: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +34,9 @@ class activity_favorite : AppCompatActivity() {
         btnResenas = findViewById(R.id.btnResenas)
         tvRestaurant1 = findViewById(R.id.tvRestaurant1)
         tvRestaurant2 = findViewById(R.id.tvRestaurant2)
-        btnNav1 = findViewById(R.id.btnNav1)
-        btnNav3 = findViewById(R.id.btnNav3)
+        bottomNavigation = findViewById(R.id.bottom_navigation)
 
+        bottomNavigation.selectedItemId = R.id.navigation_favorites
 
         // BOTÓN "ATRAS"
         btnAtras.setOnClickListener {
@@ -62,17 +61,24 @@ class activity_favorite : AppCompatActivity() {
             startActivity(detailIntent)
         }
 
-        // BOTÓN NAVEGACIÓN "INICIO"
-        btnNav1.setOnClickListener {
-            val intent = Intent(this, activity_principal::class.java)
-            startActivity(intent)
+        // NAV
+        bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    val intent = Intent(this, activity_principal::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.navigation_favorites -> {
+                    true
+                }
+                R.id.navigation_profile -> {
+                    val intent = Intent(this, activity_profile::class.java)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
         }
-
-        // BOTÓN NAVEGACIÓN "PERFIL"
-        btnNav3.setOnClickListener {
-            val intent = Intent(this, activity_profile::class.java)
-            startActivity(intent)
-        }
-
     }
 }

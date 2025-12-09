@@ -1,13 +1,15 @@
 package com.allercheck
 
 import android.content.Intent
-import android.widget.Button
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class activity_profile : AppCompatActivity() {
 
@@ -17,8 +19,7 @@ class activity_profile : AppCompatActivity() {
     lateinit var btnRestriccions: Button
     lateinit var btnRessenyes: Button
     lateinit var btnTancarSessio: Button
-    lateinit var btnNav1: ImageButton
-    lateinit var btnNav2: ImageButton
+    private lateinit var bottomNavigation: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +37,9 @@ class activity_profile : AppCompatActivity() {
         btnRestriccions = findViewById(R.id.btnRestriccions)
         btnRessenyes = findViewById(R.id.btnRessenyes)
         btnTancarSessio = findViewById(R.id.btnTancarSessio)
-        btnNav1 = findViewById(R.id.btnNav1)
-        btnNav2 = findViewById(R.id.btnNav2)
+        bottomNavigation = findViewById(R.id.bottom_navigation)
+
+        bottomNavigation.selectedItemId = R.id.navigation_profile
 
         // BOTÓN "ATRAS"
         btnAtras.setOnClickListener {
@@ -69,16 +71,24 @@ class activity_profile : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // BOTÓN NAVEGACIÓN "INICIO"
-        btnNav1.setOnClickListener {
-            val intent = Intent(this, activity_principal::class.java)
-            startActivity(intent)
-        }
-
-        // BOTÓN NAVEGACIÓN "FAVORITOS"
-        btnNav2.setOnClickListener {
-            val intent = Intent(this, activity_favorite::class.java)
-            startActivity(intent)
+        // NAV
+        bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    val intent = Intent(this, activity_principal::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.navigation_favorites -> {
+                    val intent = Intent(this, activity_favorite::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.navigation_profile -> {
+                    true
+                }
+                else -> false
+            }
         }
     }
 }

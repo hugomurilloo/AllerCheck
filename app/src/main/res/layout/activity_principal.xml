@@ -502,52 +502,17 @@
             />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/navigationBar"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:background="@color/verde"
-        android:orientation="horizontal"
+        app:itemIconTint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <ImageButton
-            android:id="@+id/btnNav1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:scaleType="centerInside"
-            android:padding="8dp"
-            android:src="@drawable/baseline_house_24"
-            app:tint="@android:color/white"
-            android:contentDescription="@string/inicio"
-            android:layout_weight="1"/>
-
-        <ImageButton
-            android:id="@+id/btnNav2"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:scaleType="centerInside"
-            android:padding="8dp"
-            android:src="@drawable/baseline_favorite_24"
-            app:tint="@android:color/white"
-            android:contentDescription="@string/favoritos"
-            android:layout_weight="1"/>
-
-        <ImageButton
-            android:id="@+id/btnNav3"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:scaleType="centerInside"
-            android:padding="8dp"
-            android:src="@drawable/baseline_person_24"
-            app:tint="@android:color/white"
-            android:contentDescription="@string/perfil"
-            android:layout_weight="1"/>
-    </LinearLayout>
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/bottom_nav_menu" />
 
 
 

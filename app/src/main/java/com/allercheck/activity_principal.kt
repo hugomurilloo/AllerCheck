@@ -8,17 +8,17 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class activity_principal : AppCompatActivity() {
 
     // VARIABLES
     lateinit var btnPref: ImageButton
     lateinit var btnRess: ImageButton
-    lateinit var btnNav2: ImageButton
-    lateinit var btnNav3: ImageButton
     lateinit var tvRestaurant1: TextView
     lateinit var tvRestaurant2: TextView
     lateinit var tvRestaurant3: TextView
+    private lateinit var bottomNavigation: BottomNavigationView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,12 +34,11 @@ class activity_principal : AppCompatActivity() {
         // INICIALIZAR
         btnPref = findViewById(R.id.btnPref)
         btnRess = findViewById(R.id.btnRess)
-        btnNav2 = findViewById(R.id.btnNav2)
-        btnNav3 = findViewById(R.id.btnNav3)
         tvRestaurant1 = findViewById(R.id.tvRestaurant1)
         tvRestaurant2 = findViewById(R.id.tvRestaurant2)
         tvRestaurant3 = findViewById(R.id.tvRestaurant3)
-
+        bottomNavigation = findViewById(R.id.bottom_navigation)
+        bottomNavigation.selectedItemId = R.id.navigation_home
 
 
         // BOTÓN "PREFERENCIAS"
@@ -54,16 +53,21 @@ class activity_principal : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // BOTÓN "FAVORITOS"
-        btnNav2.setOnClickListener {
-            val intent = Intent(this, activity_favorite::class.java)
-            startActivity(intent)
-        }
-
-        // BOTÓN "PERFIL"
-        btnNav3.setOnClickListener {
-            val intent = Intent(this, activity_profile::class.java)
-            startActivity(intent)
+        // Listener nav
+        bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_favorites -> {
+                    val intent = Intent(this, activity_favorite::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.navigation_profile -> {
+                    val intent = Intent(this, activity_profile::class.java)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
         }
 
 
