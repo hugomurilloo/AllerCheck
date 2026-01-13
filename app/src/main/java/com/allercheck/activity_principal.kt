@@ -3,27 +3,24 @@ package com.allercheck
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
-import android.widget.TextView // <-- 1. IMPORTAR TEXTVIEW
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class activity_principal : AppCompatActivity() {
 
     // VARIABLES
-    lateinit var btnPref: ImageButton
-    lateinit var btnRess: ImageButton
-    lateinit var tvRestaurant1: TextView
-    lateinit var tvRestaurant2: TextView
-    lateinit var tvRestaurant3: TextView
+    private lateinit var btnPref: ImageButton
+    private lateinit var btnRess: ImageButton
     private lateinit var bottomNavigation: BottomNavigationView
-
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var restaurantAdapter: RestaurantAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_principal)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -31,15 +28,33 @@ class activity_principal : AppCompatActivity() {
             insets
         }
 
-        // INICIALIZAR
+        // INICIALIZAR VISTAS
         btnPref = findViewById(R.id.btnPref)
         btnRess = findViewById(R.id.btnRess)
-        tvRestaurant1 = findViewById(R.id.tvRestaurant1)
-        tvRestaurant2 = findViewById(R.id.tvRestaurant2)
-        tvRestaurant3 = findViewById(R.id.tvRestaurant3)
         bottomNavigation = findViewById(R.id.bottom_navigation)
         bottomNavigation.selectedItemId = R.id.navigation_home
 
+        // CONFIGURAR RECYCLERVIEW
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        // DATOS EJEMPLO
+        val restaurants = listOf(
+            Restaurant("1", "Restaurant Tokyo", "4.9", true),
+            Restaurant("2", "La Pizzeria", "4.5", false),
+            Restaurant("3", "El Bon Menjar", "4.2", true),
+            Restaurant("4", "Polleria Don Juan", "4.5", false),
+            Restaurant("5", "Oriental Restaurant", "3", true),
+            Restaurant("6", "Yuki", "4.5", true)
+
+        )
+
+        // CREAR NAV
+        restaurantAdapter = RestaurantAdapter(restaurants) { restaurant ->
+            val intent = Intent(this, activity_detail::class.java)
+            startActivity(intent)
+        }
+        recyclerView.adapter = restaurantAdapter
 
         // BOTÓN "PREFERENCIAS"
         btnPref.setOnClickListener {
@@ -57,30 +72,15 @@ class activity_principal : AppCompatActivity() {
         bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_favorites -> {
-                    val intent = Intent(this, activity_favorite::class.java)
-                    startActivity(intent)
+                    startActivity(Intent(this, activity_favorite::class.java))
                     true
                 }
                 R.id.navigation_profile -> {
-                    val intent = Intent(this, activity_profile::class.java)
-                    startActivity(intent)
+                    startActivity(Intent(this, activity_profile::class.java))
                     true
                 }
                 else -> false
             }
-        }
-
-
-        val detailIntent = Intent(this, activity_detail::class.java)
-
-        tvRestaurant1.setOnClickListener {
-            startActivity(detailIntent)
-        }
-        tvRestaurant2.setOnClickListener {
-            startActivity(detailIntent)
-        }
-        tvRestaurant3.setOnClickListener {
-            startActivity(detailIntent)
         }
     }
 }

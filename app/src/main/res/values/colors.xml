@@ -5,6 +5,6 @@
     <color name="fondo_app">#F0F4F0</color>
     <color name="texto_principal">#2E4034</color>
     <color name="texto_secundari">#596C5F</color>
-    <color name="verde">#4CAF50</color>
-    <color name="verde_claro">#A5D6A7</color>
+    <color name="verde">#0900FF</color>
+    <color name="verde_claro">#0900FF</color>
 </resources>
