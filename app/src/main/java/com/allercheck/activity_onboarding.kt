@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
@@ -14,6 +15,9 @@ class activity_onboarding : AppCompatActivity() {
     lateinit var btnContinuarSenseCompte: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // INSTALAR SPLASH SCREEN
+        installSplashScreen()
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_onboarding)

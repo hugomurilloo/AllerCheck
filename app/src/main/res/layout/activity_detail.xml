@@ -22,6 +22,7 @@
         >
 
         <TextView
+            android:id="@+id/tvRestaurantNameDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/restaurant_tokyoo"
@@ -128,6 +129,7 @@
             />
 
         <TextView
+            android:id="@+id/tvRatingDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/_4_9"
@@ -317,60 +319,29 @@
             android:padding="5dp"
             />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/llRes"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/llPref"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginTop="20dp"
-        android:orientation="vertical"
-        >
-        <TextView
-            android:layout_width="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnRess"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/ressenyes"
+            android:backgroundTint="@color/verde"
             android:fontFamily="serif"
-            android:layout_marginStart="10dp"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/perfecte"
-            android:fontFamily="serif"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
+            android:padding="15dp"
+            android:text="@string/afegir_una_nova_ress"
             android:textSize="18sp"
             android:textStyle="bold"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/molt_segur"
-            android:fontFamily="serif"
-            android:layout_marginStart="30dp"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            />
+            app:cornerRadius="5dp" />
     </LinearLayout>
-    <Button
-        android:id="@+id/btnRess"
-        app:layout_constraintTop_toBottomOf="@id/llRes"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:text="@string/afegir_ressenya"
-        android:fontFamily="serif"
-        android:textStyle="bold"
-        android:textSize="22sp"
-        android:layout_marginTop="50dp"
-        android:backgroundTint="@color/verde"
-        app:cornerRadius="5dp"
-        android:padding="15dp"
-        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -78,8 +78,8 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="20dp"
         >
-        <RadioButton
-            android:id="@+id/rbSinGluten"
+        <CheckBox
+            android:id="@+id/cbSinGluten"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="30dp"
@@ -102,8 +102,8 @@
         app:layout_constraintTop_toBottomOf="@id/LlSinGluten"
         app:layout_constraintStart_toStartOf="parent"
         >
-        <RadioButton
-            android:id="@+id/rbSinLactosa"
+        <CheckBox
+            android:id="@+id/cbSinLactosa"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="30dp"
@@ -126,8 +126,8 @@
         app:layout_constraintTop_toBottomOf="@id/LlSinLactosa"
         app:layout_constraintStart_toStartOf="parent"
         >
-        <RadioButton
-            android:id="@+id/rbFruitsSecs"
+        <CheckBox
+            android:id="@+id/cbFruitsSecs"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="30dp"
@@ -150,8 +150,8 @@
         app:layout_constraintTop_toBottomOf="@id/LlFruitsSecs"
         app:layout_constraintStart_toStartOf="parent"
         >
-        <RadioButton
-            android:id="@+id/rbMarisc"
+        <CheckBox
+            android:id="@+id/cbMarisc"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="30dp"
@@ -174,8 +174,8 @@
         app:layout_constraintTop_toBottomOf="@id/LlMarisc"
         app:layout_constraintStart_toStartOf="parent"
         >
-        <RadioButton
-            android:id="@+id/rbVega"
+        <CheckBox
+            android:id="@+id/cbVega"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="30dp"
@@ -198,8 +198,8 @@
         app:layout_constraintTop_toBottomOf="@id/LlVega"
         app:layout_constraintStart_toStartOf="parent"
         >
-        <RadioButton
-            android:id="@+id/rbHalal"
+        <CheckBox
+            android:id="@+id/cbHalal"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="30dp"
@@ -222,8 +222,8 @@
         app:layout_constraintTop_toBottomOf="@id/LlHalal"
         app:layout_constraintStart_toStartOf="parent"
         >
-        <RadioButton
-            android:id="@+id/rbKosher"
+        <CheckBox
+            android:id="@+id/cbKosher"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="30dp"
@@ -246,8 +246,8 @@
         app:layout_constraintTop_toBottomOf="@id/LlKosher"
         app:layout_constraintStart_toStartOf="parent"
         >
-        <RadioButton
-            android:id="@+id/rbOu"
+        <CheckBox
+            android:id="@+id/cbOu"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="30dp"

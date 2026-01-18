@@ -5,15 +5,12 @@ import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class activity_favorite : AppCompatActivity() {
 
-    // VARIABLES
     private lateinit var btnAtras: ImageButton
     private lateinit var btnResenas: ImageButton
     private lateinit var bottomNavigation: BottomNavigationView
@@ -23,50 +20,44 @@ class activity_favorite : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorite)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
-        // INICIALIZAR VISTAS
+        // INICIALITZAR VISTES
         btnAtras = findViewById(R.id.btnAtras)
         btnResenas = findViewById(R.id.btnResenas)
         bottomNavigation = findViewById(R.id.bottom_navigation)
         bottomNavigation.selectedItemId = R.id.navigation_favorites
 
-        // CONFIGURAR RECYCLERVIEW
         recyclerView = findViewById(R.id.recyclerViewFavorites)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // DATOS EJEMPLO
-        // ESTO IRA DESDE UNA BDD
+        // DATOS
         val favoriteRestaurants = mutableListOf(
-            Restaurant("1", "Restaurant Tokyo", "4.9", true),
-            Restaurant("6", "Yuki", "4.5", true),
-            Restaurant("3", "El Bon Menjar", "4.2", true),
-            Restaurant("4", "Polleria Don Juan", "4.5", false),
-            Restaurant("5", "Oriental Restaurant", "3", true)
+            Restaurant("1", "Restaurant Vegà", "4.9", true, true, true, true, true, true, false, false, false, "Vegana", "15-25€", "Carrer Verd, 1", "931234561"),
+            Restaurant("6", "Yuki Kosher", "4.5", true, true, true, true, true, false, false, true, false, "Jueva", "25-40€", "Carrer de la Sinagoga, 6", "931234566"),
+            Restaurant("3", "El Bon Menjar Marí", "4.2", true, true, true, true, false, false, false, false, true, "Marisqueria", "30-50€", "Passeig Marítim, 3", "931234563")
         )
 
-        // CREAR Y PONER ADAPTER
+        // ENVIAR
         favoriteAdapter = FavoriteRestaurantAdapter(
             restaurants = favoriteRestaurants,
             onItemClick = { restaurant ->
                 val intent = Intent(this, activity_detail::class.java)
+                intent.putExtra("EXTRA_RESTAURANT", restaurant)
                 startActivity(intent)
             },
             onDeleteClick = { restaurant ->
-
-                Toast.makeText(this, "Eliminar: ${restaurant.name}", Toast.LENGTH_SHORT).show()
+                val position = favoriteRestaurants.indexOf(restaurant)
+                if (position != -1) {
+                    favoriteRestaurants.removeAt(position)
+                    favoriteAdapter.notifyItemRemoved(position)
+                    Toast.makeText(this, "Eliminat: ${restaurant.name}", Toast.LENGTH_SHORT).show()
+                }
             }
         )
         recyclerView.adapter = favoriteAdapter
 
         // BOTONES y NAVEGACIÓN
-        btnAtras.setOnClickListener {
-            finish()
-        }
+        btnAtras.setOnClickListener { finish() }
         btnResenas.setOnClickListener {
             val intent = Intent(this, activity_review::class.java)
             startActivity(intent)

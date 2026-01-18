@@ -1,4 +1,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Temita para Splash Screen -->
+    <style name="Theme.AllerCheck.SplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/verde</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo_animado</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <item name="postSplashScreenTheme">@style/Base.Theme.AllerCheck</item>
+    </style>
+
     <style name="Base.Theme.AllerCheck" parent="Theme.Material3.DayNight.NoActionBar">
     </style>
 
