@@ -7,28 +7,28 @@ import androidx.lifecycle.ViewModel
 class RegisterViewModel : ViewModel() {
 
     // Lista usuarios
-    private  val registeredUsers = mutableListOf<User>()
+    private val registeredUsers = mutableListOf<User>()
 
-    //Estados UI
+    // ESTADOS PRIVADOS
     private val _name = MutableLiveData<String>()
     private val _email = MutableLiveData<String>()
     private val _password = MutableLiveData<String>()
-    private val _nameError = MutableLiveData<String>()
-    private val _emailError = MutableLiveData<String>()
-    private val _passwordError = MutableLiveData<String>()
+    private val _nameError = MutableLiveData<String?>()
+    private val _emailError = MutableLiveData<String?>()
+    private val _passwordError = MutableLiveData<String?>()
     private val _registerSuccess = MutableLiveData<Boolean>()
-    private val _registerError = MutableLiveData<String>()
+    private val _registerError = MutableLiveData<String?>()
     private val _isFormValid = MutableLiveData<Boolean>()
 
-    //Estados UI publicos
+    // ESTADOS PUBLICOS
     val name: LiveData<String> = _name
     val email: LiveData<String> = _email
-    val passsword: LiveData<String> = _password
-    val nameError: LiveData<String> = _nameError
-    val emailError: LiveData<String> = _emailError
-    val passwordError: LiveData<String> = _passwordError
+    val password: LiveData<String> = _password
+    val nameError: LiveData<String?> = _nameError
+    val emailError: LiveData<String?> = _emailError
+    val passwordError: LiveData<String?> = _passwordError
     val registerSuccess: LiveData<Boolean> = _registerSuccess
-    val registerError: LiveData<String> = _registerError
+    val registerError: LiveData<String?> = _registerError
     val isFormValid: LiveData<Boolean> = _isFormValid
 
     init {
@@ -52,54 +52,45 @@ class RegisterViewModel : ViewModel() {
         validateForm()
     }
 
-    private  fun validateForm() {
+    private fun validateForm() {
         val nameValid = isValidName(_name.value ?: "")
         val emailValid = isEmailValid(_email.value ?: "")
         val passwordValid = isPasswordValid(_password.value ?: "")
+        val emailExists = registeredUsers.any { it.email == _email.value }
 
-        _nameError.value = if (!nameValid) "El nom no pot ser null" else null
-        _emailError.value = if (!emailValid) "El email no pot ser null" else null
-        _passwordError.value = if (!passwordValid) "Minim 8 caracters" else null
+        _nameError.value = if (!nameValid) "El nom no pot ser buit" else null
+        _emailError.value = if (!emailValid) {
+            "L'email no és vàlid"
+        } else if (emailExists) {
+            "Aquest email ja està en ús"
+        } else {
+            null
+        }
+        _passwordError.value = if (!passwordValid) "Mínim 8 caràcters" else null
 
-        _isFormValid.value = nameValid && passwordValid && emailValid
-
+        _isFormValid.value = nameValid && emailValid && passwordValid && !emailExists
     }
 
     private fun isValidName(name: String): Boolean = name.trim().isNotEmpty()
-    private fun isEmailValid(email: String): Boolean = email.trim().isNotEmpty()
+    private fun isEmailValid(email: String): Boolean = email.isNotBlank() && email.contains("@")
     private fun isPasswordValid(password: String): Boolean = password.length >= 8
 
-    fun register(){
-        if(_isFormValid.value == true){
-            val name = _name.value ?: ""
-            val email = _email.value ?: ""
-            val password = _password.value ?: ""
+    // METODO PARA CREAR LOS USUARIOS
+    fun register() {
+        if (_isFormValid.value == true) {
+            val name = _name.value!!
+            val email = _email.value!!
+            val password = _password.value!!
 
-            //Verificar si el email ya esta creado
-            val emailExists = registeredUsers.any{it.email == email}
+            val newUser = User(name, email, password)
+            registeredUsers.add(newUser)
 
-            if(emailExists){
-                _registerSuccess.value = false
-                _registerError.value = "Email ja registrat"
-            } else{
-                //Guardamos el usuario
-                val newUser = User(name,email,password)
-                registeredUsers.add(newUser)
+            _registerSuccess.value = true
+            _registerError.value = null
 
-                _registerSuccess.value = true
-                _registerError.value = null
-                println("Usuari registrat: $email ")
-                println("Usuaris registrats: ${registeredUsers.size}")
-
-                
-            }
+        } else {
+            _registerSuccess.value = false
+            _registerError.value = "Si us plau, corregeix els errors."
         }
     }
-    fun verifyLogin(email: String, password: String): Boolean{
-        return registeredUsers.any{it.email == email && it.password == password}
-    }
-
-
-
-
 }
