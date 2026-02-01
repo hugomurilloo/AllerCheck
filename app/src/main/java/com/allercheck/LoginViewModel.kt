@@ -60,7 +60,7 @@ class LoginViewModel: ViewModel() {
             _loginError.value = null
         } else {
             _loginSuccess.value = false
-            _loginError.value = "El formulari conté errors."
+
         }
     }
 }

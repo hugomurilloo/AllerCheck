@@ -56,19 +56,16 @@ class RegisterViewModel : ViewModel() {
         val nameValid = isValidName(_name.value ?: "")
         val emailValid = isEmailValid(_email.value ?: "")
         val passwordValid = isPasswordValid(_password.value ?: "")
-        val emailExists = registeredUsers.any { it.email == _email.value }
 
         _nameError.value = if (!nameValid) "El nom no pot ser buit" else null
         _emailError.value = if (!emailValid) {
             "L'email no és vàlid"
-        } else if (emailExists) {
-            "Aquest email ja està en ús"
         } else {
             null
         }
         _passwordError.value = if (!passwordValid) "Mínim 8 caràcters" else null
 
-        _isFormValid.value = nameValid && emailValid && passwordValid && !emailExists
+        _isFormValid.value = nameValid && emailValid && passwordValid
     }
 
     private fun isValidName(name: String): Boolean = name.trim().isNotEmpty()
@@ -90,7 +87,6 @@ class RegisterViewModel : ViewModel() {
 
         } else {
             _registerSuccess.value = false
-            _registerError.value = "Si us plau, corregeix els errors."
         }
     }
 }
