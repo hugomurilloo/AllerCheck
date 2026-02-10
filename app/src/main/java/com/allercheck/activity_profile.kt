@@ -25,11 +25,6 @@ class activity_profile : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_profile)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
         // INICIALIZAR
         btnAtras = findViewById(R.id.btnAtras)
@@ -75,19 +70,14 @@ class activity_profile : AppCompatActivity() {
         bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
-                    val intent = Intent(this, activity_principal::class.java)
-                    startActivity(intent)
+                    startActivity(Intent(this, activity_principal::class.java))
                     true
                 }
                 R.id.navigation_favorites -> {
-                    val intent = Intent(this, activity_favorite::class.java)
-                    startActivity(intent)
+                    startActivity(Intent(this, activity_favorite::class.java))
                     true
                 }
-                R.id.navigation_profile -> {
-                    true
-                }
-                else -> false
+                else -> true
             }
         }
     }

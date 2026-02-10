@@ -1,51 +1,77 @@
 package com.allercheck
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
-import android.widget.TextView // Importar TextView
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class activity_review : AppCompatActivity() {
 
-    // VARIABLES
-    lateinit var btnAtras: ImageButton
-    lateinit var tvRestaurant1: TextView
-    lateinit var tvRestaurant2: TextView
+    private lateinit var btnAtras: ImageButton
+    private lateinit var rvReviews: RecyclerView
+    private lateinit var reviewAdapter: ReviewAdapter
+    private lateinit var reviewsList: MutableList<Ressenya>
+
+    private val editReviewLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            loadSampleData()
+            reviewAdapter.notifyDataSetChanged()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_review)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
-        // INICIALIZAR
+        // INICIALIZAR VISTAS
         btnAtras = findViewById(R.id.btnAtras)
-        tvRestaurant1 = findViewById(R.id.tvRestaurant1)
-        tvRestaurant2 = findViewById(R.id.tvRestaurant2)
+        rvReviews = findViewById(R.id.rvReviews)
 
-        // BOTÓN "ATRAS"
+        // CONFIGURAR RECYCLERVIEW
+        setupRecyclerView()
+        loadSampleData()
+
+        // LISTENERS
         btnAtras.setOnClickListener {
             finish()
         }
 
-        // TEXTVIEW "Restaurant Tokyo"
-        tvRestaurant1.setOnClickListener {
-            val intent = Intent(this, activity_detail::class.java)
-            startActivity(intent)
-        }
+    }
 
-        // TEXTVIEW "La Pizzeria"
-        tvRestaurant2.setOnClickListener {
-            val intent = Intent(this, activity_detail::class.java)
-            startActivity(intent)
+    private fun loadSampleData() {
+        if (!::reviewsList.isInitialized) {
+            reviewsList = mutableListOf()
         }
+        reviewsList.clear()
+        reviewsList.addAll(
+            mutableListOf(
+                Ressenya("1", "1", "Restaurant Vegà", 4, "Molt bona atenció.", true),
+                Ressenya("2", "2", "La Pizzeria Clàssica", 5, "Excel·lent, com sempre.", true),
+                Ressenya("3", "5", "Oriental Restaurant", 3, "Podria millorar.", false)
+            )
+        )
+    }
+
+    private fun setupRecyclerView() {
+        reviewsList = mutableListOf()
+        reviewAdapter = ReviewAdapter(
+            reviewsList,
+            onRestaurantClick = { review ->
+
+            },
+            onEditClick = { review ->
+                val intent = Intent(this, activity_create_edit_review::class.java)
+                intent.putExtra("EXTRA_REVIEW", review)
+                editReviewLauncher.launch(intent) // Usamos el launcher para esperar un resultado
+            }
+        )
+        rvReviews.adapter = reviewAdapter
+        rvReviews.layoutManager = LinearLayoutManager(this)
     }
 }
