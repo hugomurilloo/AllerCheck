@@ -9,10 +9,17 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class FavoriteRestaurantAdapter(
-    private val restaurants: List<Restaurant>,
+    private val restaurants: MutableList<Restaurant>,
     private val onItemClick: (Restaurant) -> Unit,
     private val onDeleteClick: (Restaurant) -> Unit
 ) : RecyclerView.Adapter<FavoriteRestaurantAdapter.FavoriteViewHolder>() {
+
+    // Funcion para actualizar datos desde la Activity
+    fun updateFavorites(newFavorites: List<Restaurant>) {
+        restaurants.clear()
+        restaurants.addAll(newFavorites)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -43,16 +50,9 @@ class FavoriteRestaurantAdapter(
             ratingTextView.text = restaurant.rating
             verificationLayout.visibility = if (restaurant.isVerified) View.VISIBLE else View.GONE
 
-            itemView.setOnClickListener {
-                onItemClick(restaurant)
-            }
-
-            deleteButton.setOnClickListener {
-                onDeleteClick(restaurant)
-            }
-            deleteRadioButton.setOnClickListener {
-                onDeleteClick(restaurant)
-            }
+            itemView.setOnClickListener { onItemClick(restaurant) }
+            deleteButton.setOnClickListener { onDeleteClick(restaurant) }
+            deleteRadioButton.setOnClickListener { onDeleteClick(restaurant) }
         }
     }
 }

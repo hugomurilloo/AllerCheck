@@ -5,9 +5,14 @@ import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+
+import androidx.lifecycle.lifecycleScope
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+
+import kotlinx.coroutines.launch
 
 class activity_favorite : AppCompatActivity() {
 
@@ -21,7 +26,6 @@ class activity_favorite : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorite)
 
-        // INICIALITZAR VISTES
         btnAtras = findViewById(R.id.btnAtras)
         btnResenas = findViewById(R.id.btnResenas)
         bottomNavigation = findViewById(R.id.bottom_navigation)
@@ -30,37 +34,25 @@ class activity_favorite : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerViewFavorites)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // DATOS
-        val favoriteRestaurants = mutableListOf(
-            Restaurant("1", "Restaurant Vegà", "4.9", true, true, true, true, true, true, false, false, false, "Vegana", "15-25€", "Carrer Verd, 1", "931234561"),
-            Restaurant("6", "Yuki Kosher", "4.5", true, true, true, true, true, false, false, true, false, "Jueva", "25-40€", "Carrer de la Sinagoga, 6", "931234566"),
-            Restaurant("3", "El Bon Menjar Marí", "4.2", true, true, true, true, false, false, false, false, true, "Marisqueria", "30-50€", "Passeig Marítim, 3", "931234563")
-        )
-
-        // ENVIAR
+        // Lista vacia y cargar de la API
         favoriteAdapter = FavoriteRestaurantAdapter(
-            restaurants = favoriteRestaurants,
+            restaurants = mutableListOf(),
             onItemClick = { restaurant ->
                 val intent = Intent(this, activity_detail::class.java)
                 intent.putExtra("EXTRA_RESTAURANT", restaurant)
                 startActivity(intent)
             },
             onDeleteClick = { restaurant ->
-                val position = favoriteRestaurants.indexOf(restaurant)
-                if (position != -1) {
-                    favoriteRestaurants.removeAt(position)
-                    favoriteAdapter.notifyItemRemoved(position)
-                    Toast.makeText(this, "Eliminat: ${restaurant.name}", Toast.LENGTH_SHORT).show()
-                }
+                deleteFavoriteFromApi(restaurant)
             }
         )
         recyclerView.adapter = favoriteAdapter
 
-        // BOTONES y NAVEGACIÓN
+        loadFavoritesFromApi()
+
         btnAtras.setOnClickListener { finish() }
         btnResenas.setOnClickListener {
-            val intent = Intent(this, activity_review::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, activity_review::class.java))
         }
         bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -73,6 +65,38 @@ class activity_favorite : AppCompatActivity() {
                     true
                 }
                 else -> true
+            }
+        }
+    }
+
+    // Cargar favoritos
+    private fun loadFavoritesFromApi() {
+        lifecycleScope.launch {
+            try {
+                val response = ItemAPI.API().getFavorites()
+                if (response.isSuccessful) {
+                    val favorites = response.body() ?: emptyList()
+                    favoriteAdapter.updateFavorites(favorites)
+                } else {
+                    Toast.makeText(this@activity_favorite, "Error HTTP: ${response.code()}", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@activity_favorite, "Error de connexió", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    // Eliminar favorito
+    private fun deleteFavoriteFromApi(restaurant: Restaurant) {
+        lifecycleScope.launch {
+            try {
+                val response = ItemAPI.API().deleteFavorite(restaurant.id)
+                if (response.isSuccessful) {
+                    Toast.makeText(this@activity_favorite, "Eliminat correctament", Toast.LENGTH_SHORT).show()
+                    loadFavoritesFromApi() // Recargar lista
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@activity_favorite, "Error al eliminar", Toast.LENGTH_SHORT).show()
             }
         }
     }

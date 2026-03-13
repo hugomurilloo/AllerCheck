@@ -7,9 +7,17 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class RestaurantAdapter(
-    private val restaurants: List<Restaurant>,
+    private val restaurants: MutableList<Restaurant>,
     private val onItemClick: (Restaurant) -> Unit
 ) : RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder>() {
+
+    //Función para actualizar los datos del adaptador desde la Activity.
+
+    fun updateRestaurants(newRestaurants: List<Restaurant>) {
+        restaurants.clear()
+        restaurants.addAll(newRestaurants)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RestaurantViewHolder {
         val view = LayoutInflater.from(parent.context)

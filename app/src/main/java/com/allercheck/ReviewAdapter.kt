@@ -16,6 +16,13 @@ class ReviewAdapter(
     private val onEditClick: (Ressenya) -> Unit
 ) : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>() {
 
+    //Función para actualizar los datos del adaptador desde la Activity.
+    fun updateReviews(newReviews: List<Ressenya>) {
+        reviews.clear()
+        reviews.addAll(newReviews)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_review, parent, false)

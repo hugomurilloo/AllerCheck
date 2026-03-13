@@ -3,27 +3,25 @@ package com.allercheck
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 class activity_detail : AppCompatActivity() {
 
-    // VARIABLES
     private lateinit var btnAtras: ImageButton
     private lateinit var btnRess: Button
+    private lateinit var cbFavorite: CheckBox
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
-        // INICIALITZAR
+        // Iniciar vistaa
         btnAtras = findViewById(R.id.btnAtras)
         btnRess = findViewById(R.id.btnRess)
-
-
-        // DATOS
+        cbFavorite = findViewById(R.id.csR1)
         val restaurant = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra("EXTRA_RESTAURANT", Restaurant::class.java)
         } else {
@@ -31,35 +29,48 @@ class activity_detail : AppCompatActivity() {
             intent.getParcelableExtra<Restaurant>("EXTRA_RESTAURANT")
         }
 
-        if (restaurant != null) {
-            // TEXTVIEW DATOS
-            val tvName: TextView = findViewById(R.id.tvRestaurantNameDetail)
-            val tvRating: TextView = findViewById(R.id.tvRatingDetail)
-            val tvTipus: TextView = findViewById(R.id.tvTipus)
-            val tvPreu: TextView = findViewById(R.id.tvPreu)
-            val tvUbi: TextView = findViewById(R.id.tvUbi)
-            val tvTel: TextView = findViewById(R.id.tvTel)
-
-            // TEXTVIEW DATOS
-            tvName.text = restaurant.name
-            tvRating.text = restaurant.rating
-            tvTipus.text = restaurant.tipusCuina
-            tvPreu.text = restaurant.rangPreu
-            tvUbi.text = restaurant.ubicacio
-            tvTel.text = restaurant.telefon
-
-        }
-
-
-        // BOTON "ATRAS"
-        btnAtras.setOnClickListener {
+        if (restaurant == null) {
+            Toast.makeText(this, "Error al carregar les dades", Toast.LENGTH_SHORT).show()
             finish()
+            return
         }
 
-        // BOTÓ "AFEGIR RESSENYA"
+        // Llenar la UI con ? porque sino peta
+        findViewById<TextView>(R.id.tvRestaurantNameDetail).text = restaurant.name ?: "Sense nom"
+        findViewById<TextView>(R.id.tvRatingDetail).text = restaurant.rating ?: "0.0"
+        findViewById<TextView>(R.id.tvTipus).text = restaurant.tipusCuina ?: "No especificat"
+        findViewById<TextView>(R.id.tvPreu).text = restaurant.rangPreu ?: "---"
+        findViewById<TextView>(R.id.tvUbi).text = restaurant.ubicacio ?: "Ubicació no disponible"
+        findViewById<TextView>(R.id.tvTel).text = restaurant.telefon ?: "Sense telèfon"
+
+        // Estado inicial del CheckBox
+        cbFavorite.isChecked = restaurant.isFavorite
+
+        btnAtras.setOnClickListener { finish() }
+
+        // Favoritos
+        cbFavorite.setOnCheckedChangeListener { _, isChecked ->
+            lifecycleScope.launch {
+                try {
+                    if (isChecked) {
+                        ItemAPI.API().addFavorite(mapOf("id" to restaurant.id))
+                        Toast.makeText(this@activity_detail, "Afegit a preferits", Toast.LENGTH_SHORT).show()
+                    } else {
+                        ItemAPI.API().deleteFavorite(restaurant.id)
+                        Toast.makeText(this@activity_detail, "Eliminat de preferits", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(this@activity_detail, "Error de connexió", Toast.LENGTH_SHORT).show()
+                    cbFavorite.isChecked = !isChecked // Revertir visualmente si falla
+                }
+            }
+        }
+
         btnRess.setOnClickListener {
-            val intent = Intent(this, activity_create_edit_review::class.java)
-            startActivity(intent)
+            val intentReview = Intent(this, activity_create_edit_review::class.java)
+            intentReview.putExtra("REST_NAME", restaurant.name ?: "Restaurant")
+            intentReview.putExtra("REST_ID", restaurant.id)
+            startActivity(intentReview)
         }
     }
 }

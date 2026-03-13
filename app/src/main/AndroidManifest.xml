@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -10,46 +12,48 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AllerCheck">
-        <activity
-            android:name=".activity_principal"
-            android:exported="false" />
-        <activity
-            android:name=".activity_review"
-            android:exported="false" />
-        <activity
-            android:name=".activity_profile"
-            android:exported="false"
-            android:theme="@style/Theme.AllerCheck" />
-        <activity
-            android:name=".activity_favorite"
-            android:exported="false" />
-        <activity
-            android:name=".activity_create_edit_review"
-            android:exported="false" />
-        <activity
-            android:name=".activity_config_restrictions"
-            android:exported="false" />
-        <activity
-            android:name=".activity_detail"
-            android:exported="false" />
-        <activity
-            android:name=".activity_register"
-            android:exported="false" />
-        <activity
-            android:name=".activity_login"
-            android:exported="false" />
-        <activity
-            android:name=".activity_onboarding"
-            android:exported="true"
-            android:theme="@style/Theme.AllerCheck.SplashScreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+    android:usesCleartextTraffic="true"
+    android:theme="@style/Theme.AllerCheck">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+    <activity
+        android:name=".activity_principal"
+        android:exported="false" />
+    <activity
+        android:name=".activity_review"
+        android:exported="false" />
+    <activity
+        android:name=".activity_profile"
+        android:exported="false"
+        android:theme="@style/Theme.AllerCheck" />
+    <activity
+        android:name=".activity_favorite"
+        android:exported="false" />
+    <activity
+        android:name=".activity_create_edit_review"
+        android:exported="false" />
+    <activity
+        android:name=".activity_config_restrictions"
+        android:exported="false" />
+    <activity
+        android:name=".activity_detail"
+        android:exported="false" />
+    <activity
+        android:name=".activity_register"
+        android:exported="false" />
+    <activity
+        android:name=".activity_login"
+        android:exported="false" />
 
-    </application>
+    <activity
+        android:name=".activity_onboarding"
+        android:exported="true"
+        android:theme="@style/Theme.AllerCheck.SplashScreen">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
 
-</manifest>
+</application>
+
+    </manifest>

@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/fondo_app"
-
     tools:context=".activity_detail">
 
     <LinearLayout
@@ -18,23 +17,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"
-        >
+        android:layout_marginTop="20dp">
 
         <TextView
             android:id="@+id/tvRestaurantNameDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/restaurant_tokyoo"
+            tools:text="Restaurant Tokyo"
             android:letterSpacing="0.05"
             android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold"
             android:fontFamily="serif" />
-
     </LinearLayout>
-
-
 
     <ImageButton
         android:id="@+id/btnAtras"
@@ -65,78 +60,61 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="30dp"
         android:layout_marginStart="20dp"
-        android:layout_marginEnd="150dp"
-        >
+        android:layout_marginEnd="150dp">
         <ImageView
-            android:id="@+id/ivE1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/baseline_star_rate_24"
-            app:tint="@color/verde"
-            android:contentDescription="@string/rese_as"
-            android:layout_weight="1"
-            android:scaleX="1.5"
-            android:scaleY="1.5"
-            android:padding="5dp"
-            />
-        <ImageView
-            android:id="@+id/ivE2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_star_rate_24"
-            app:tint="@color/verde"
-            android:contentDescription="@string/rese_as"
-            android:layout_weight="1"
-            android:scaleX="1.5"
-            android:scaleY="1.5"
-            android:padding="5dp"
-            />
-        <ImageView
-            android:id="@+id/ivE3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_star_rate_24"
-            app:tint="@color/verde"
-            android:contentDescription="@string/rese_as"
-            android:layout_weight="1"
-            android:scaleX="1.5"
-            android:scaleY="1.5"
-            android:padding="5dp"
-            />
-        <ImageView
-            android:id="@+id/ivE4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_star_rate_24"
-            app:tint="@color/verde"
-            android:contentDescription="@string/rese_as"
-            android:layout_weight="1"
-            android:scaleX="1.5"
-            android:scaleY="1.5"
-            android:padding="5dp"
-            />
-        <ImageView
-            android:id="@+id/ivE5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/rese_as"
             android:src="@drawable/baseline_star_rate_24"
             app:tint="@color/verde"
             android:layout_weight="1"
             android:scaleX="1.5"
             android:scaleY="1.5"
-            android:padding="5dp"
-            />
+            android:padding="5dp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_star_rate_24"
+            app:tint="@color/verde"
+            android:layout_weight="1"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:padding="5dp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_star_rate_24"
+            app:tint="@color/verde"
+            android:layout_weight="1"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:padding="5dp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_star_rate_24"
+            app:tint="@color/verde"
+            android:layout_weight="1"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:padding="5dp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_star_rate_24"
+            app:tint="@color/verde"
+            android:layout_weight="1"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:padding="5dp" />
 
         <TextView
             android:id="@+id/tvRatingDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/_4_9"
+            tools:text="4.9"
             android:fontFamily="serif"
             android:textSize="23sp"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
@@ -147,47 +125,37 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:gravity="center"
-        >
+        android:gravity="center">
         <ImageView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_restaurant_24"
-            android:scaleX="1.2"
-            android:scaleY="1.2"
             app:tint="@color/verde"
-            android:contentDescription="@string/rese_as"
-            android:layout_weight="1"
-            android:padding="5dp"
-            />
+            android:padding="5dp" />
         <TextView
             android:id="@+id/tvTipus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/japon_s"
+            tools:text="Japonès"
             android:fontFamily="serif"
             android:layout_marginStart="10dp"
             android:textSize="20sp"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=" • "
-            android:fontFamily="serif"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            />
+            android:textSize="20sp" />
         <TextView
             android:id="@+id/tvPreu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/_20_30"
+            tools:text="20-30€"
             android:fontFamily="serif"
             android:textSize="20sp"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/llUbi"
         android:layout_width="wrap_content"
@@ -196,30 +164,24 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:gravity="center"
-        >
+        android:gravity="center">
         <ImageView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_location_on_24"
-            android:scaleX="1.2"
-            android:scaleY="1.2"
             app:tint="@color/verde"
-            android:contentDescription="@string/ubicaci"
-            android:layout_weight="1"
-            android:padding="5dp"
-            />
+            android:padding="5dp" />
         <TextView
             android:id="@+id/tvUbi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/carrer_major_23"
+            tools:text="Carrer Major, 23"
             android:fontFamily="serif"
             android:layout_marginStart="10dp"
             android:textSize="20sp"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/llTel"
         android:layout_width="wrap_content"
@@ -228,96 +190,47 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:gravity="center"
-        >
+        android:gravity="center">
         <ImageView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_call_24"
-            android:scaleX="1.2"
-            android:scaleY="1.2"
             app:tint="@color/verde"
-            android:contentDescription="@string/telefon"
-            android:layout_weight="1"
-            android:padding="5dp"
-            />
+            android:padding="5dp" />
         <TextView
             android:id="@+id/tvTel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/_34_623_45_98_12"
+            tools:text="932 11 22 33"
             android:fontFamily="serif"
             android:layout_marginStart="10dp"
             android:textSize="20sp"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/llProtocols"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/llTel"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/protocols"
-            android:fontFamily="serif"
-            android:layout_marginStart="10dp"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cuina_separada"
-            android:fontFamily="serif"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/olis_exclusius"
-            android:fontFamily="serif"
-            android:layout_marginStart="10dp"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            />
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/llPref"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/llProtocols"
+        app:layout_constraintTop_toBottomOf="@id/llTel"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:orientation="horizontal"
-        >
-        <RadioButton
+        android:gravity="center_vertical">
+
+        <CheckBox
             android:id="@+id/csR1"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <ImageView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_favorite_24"
             app:tint="@color/verde"
-            android:contentDescription="@string/favoritos"
-            android:layout_weight="1"
-            android:padding="5dp"
-            />
+            android:padding="5dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -326,19 +239,20 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/llPref"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="20dp"
-        android:orientation="vertical">
+        android:gravity="center"
+        android:paddingBottom="20dp">
 
         <Button
             android:id="@+id/btnRess"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:backgroundTint="@color/verde"
-            android:fontFamily="serif"
-            android:padding="15dp"
-            android:text="@string/afegir_una_nova_ress"
+            android:text="@string/ressenyes"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
             app:cornerRadius="5dp" />
