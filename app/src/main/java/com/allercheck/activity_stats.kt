@@ -35,11 +35,10 @@ class activity_stats : AppCompatActivity() {
             Toast.makeText(this, "Estadístiques reiniciades", Toast.LENGTH_SHORT).show()
         }
 
-        // Observar cambios y actualizar gráficos
-        viewModel.stats.observe(this) { stats: AppStats? ->
+        viewModel.stats.observe(this) { stats ->
             if (stats == null) return@observe
 
-            // BARRAS - Filtros
+            // 1. Bar Chart
             val barEntries = ArrayList<BarEntry>()
             barEntries.add(BarEntry(0f, stats.gluten.toFloat()))
             barEntries.add(BarEntry(1f, stats.lactose.toFloat()))
@@ -52,7 +51,6 @@ class activity_stats : AppCompatActivity() {
 
             val barDataSet = BarDataSet(barEntries, "Filtres")
             barDataSet.colors = listOf(Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.MAGENTA, Color.CYAN, Color.GRAY, Color.BLACK)
-            barDataSet.valueTextSize = 10f
 
             barChart.data = BarData(barDataSet)
             barChart.xAxis.valueFormatter = IndexAxisValueFormatter(listOf("Glu", "Lac", "Fru", "Mar", "Veg", "Hal", "Kos", "Ou"))
@@ -60,9 +58,9 @@ class activity_stats : AppCompatActivity() {
             barChart.xAxis.granularity = 1f
             barChart.description.isEnabled = false
             barChart.animateY(800)
-            barChart.invalidate() // Fuerza el redibujado
+            barChart.invalidate()
 
-            // REDONDO - Reseñas
+            // 2. Pie Chart
             val pieEntries = ArrayList<PieEntry>()
             if (stats.reviews > 0) {
                 pieEntries.add(PieEntry(stats.reviews.toFloat(), "Ressenyes"))
@@ -71,16 +69,15 @@ class activity_stats : AppCompatActivity() {
             }
 
             val pieDataSet = PieDataSet(pieEntries, "")
-            pieDataSet.colors = listOf(Color.parseColor("#79C447"), Color.LTGRAY)
-            pieDataSet.valueTextSize = 12f
+            pieDataSet.colors = if (stats.reviews > 0) listOf(Color.parseColor("#79C447")) else listOf(Color.LTGRAY)
 
             pieChart.data = PieData(pieDataSet)
             pieChart.description.isEnabled = false
-            pieChart.centerText = "Activitat"
+            pieChart.centerText = "Ressenyes"
             pieChart.animateXY(800, 800)
             pieChart.invalidate()
 
-            // CÁLCULO CO2 REAL
+            // 3. CO2 con 6 decimales para notar el cambio
             val kgCo2 = (stats.secondsUsed / 3600.0) * 0.004
             tvCo2.text = "Petjada CO2: ${String.format("%.6f", kgCo2)} kg"
         }

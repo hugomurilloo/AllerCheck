@@ -2,11 +2,12 @@ package com.allercheck
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.*
-import androidx.lifecycle.asLiveData
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
@@ -40,23 +41,15 @@ class StatsViewModel(application: Application) : AndroidViewModel(application) {
     private val K_REVIEWS = intPreferencesKey("reviews")
     private val K_TIME = longPreferencesKey("time")
 
-    // Observa los cambios en DataStore y los convierte a LiveData
     val stats: LiveData<AppStats> = context.dataStore.data.map { p ->
         AppStats(
-            p[K_GLUTEN] ?: 0,
-            p[K_LACTOSE] ?: 0,
-            p[K_FRUITS] ?: 0,
-            p[K_MARISC] ?: 0,
-            p[K_VEGA] ?: 0,
-            p[K_HALAL] ?: 0,
-            p[K_KOSHER] ?: 0,
-            p[K_OU] ?: 0,
-            p[K_REVIEWS] ?: 0,
+            p[K_GLUTEN] ?: 0, p[K_LACTOSE] ?: 0, p[K_FRUITS] ?: 0,
+            p[K_MARISC] ?: 0, p[K_VEGA] ?: 0, p[K_HALAL] ?: 0,
+            p[K_KOSHER] ?: 0, p[K_OU] ?: 0, p[K_REVIEWS] ?: 0,
             p[K_TIME] ?: 0
         )
     }.asLiveData()
 
-    // Suma 1 al filtro
     fun trackFilter(type: String) {
         viewModelScope.launch {
             context.dataStore.edit { p ->
@@ -71,30 +64,27 @@ class StatsViewModel(application: Application) : AndroidViewModel(application) {
                     "ou" -> p[K_OU] = (p[K_OU] ?: 0) + 1
                 }
             }
-            syncToFirestore()
+            forceSync()
         }
     }
 
-    // Suma 1 al contador
     fun trackReview() {
         viewModelScope.launch {
             context.dataStore.edit { it[K_REVIEWS] = (it[K_REVIEWS] ?: 0) + 1 }
-            syncToFirestore()
+            forceSync()
         }
     }
 
-    // Acumula los segundos
     fun addTime(seconds: Long) {
         viewModelScope.launch {
             context.dataStore.edit { p ->
                 val current = p[K_TIME] ?: 0L
                 p[K_TIME] = current + seconds
             }
-            syncToFirestore()
+            forceSync()
         }
     }
 
-    // Borra todos los datos
     fun resetStats() {
         viewModelScope.launch {
             context.dataStore.edit { it.clear() }
@@ -102,8 +92,14 @@ class StatsViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    // Sincroniza
-    private fun syncToFirestore() {
-        stats.value?.let { db.collection("stats").document("user_unique_id").set(it) }
+    private suspend fun forceSync() {
+        val p = context.dataStore.data.first()
+        val currentStats = AppStats(
+            p[K_GLUTEN] ?: 0, p[K_LACTOSE] ?: 0, p[K_FRUITS] ?: 0,
+            p[K_MARISC] ?: 0, p[K_VEGA] ?: 0, p[K_HALAL] ?: 0,
+            p[K_KOSHER] ?: 0, p[K_OU] ?: 0, p[K_REVIEWS] ?: 0,
+            p[K_TIME] ?: 0
+        )
+        db.collection("stats").document("user_unique_id").set(currentStats)
     }
 }
