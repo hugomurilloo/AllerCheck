@@ -78,5 +78,11 @@
     <string name="atras">Atras</string>
     <string name="afegir_una_nova_ress">Afegir una nova ressenya</string>
     <string name="ya_tienes_cuenta">Ja tens compte</string>
+    <string name="stats">Estadístiques</string>
     <string name="editar_ressenya">editar ressenya</string>
+    <string name="ressenyes_totals">Ressenyes totals</string>
+    <string name="estad_stiques_s">ESTADÍSTIQUES ÚS</string>
+    <string name="reset_estad_stiques">RESET ESTADÍSTIQUES</string>
+    <string name="estad_stiques_i_co2">Estadístiques i CO2</string>
+    <string name="co2_0_0kg">CO2: 0.0kg</string>
 </resources>

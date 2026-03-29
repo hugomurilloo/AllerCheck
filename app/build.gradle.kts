@@ -15,17 +15,13 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {
@@ -41,7 +37,6 @@ android {
 }
 
 dependencies {
-    // SPLASH SCREEN API Y PARA LO DEL ANDROID 16
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -50,19 +45,25 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+
+    // RETROFIT
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // FIREBASE
+    implementation(platform("com.google.firebase:firebase-bom:34.10.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-firestore")
+
+    // DATASTORE
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
+
+    // GRAFICOS
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-    //RETROFIT
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
-
-
-    //FIREBASE
-    implementation(platform("com.google.firebase:firebase-bom:34.10.0"))
-    implementation("com.google.firebase:firebase-analytics")
-
+    // asLiveData()
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
 
 }

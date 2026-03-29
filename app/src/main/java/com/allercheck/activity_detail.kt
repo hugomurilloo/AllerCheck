@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
@@ -13,15 +14,18 @@ class activity_detail : AppCompatActivity() {
     private lateinit var btnAtras: ImageButton
     private lateinit var btnRess: Button
     private lateinit var cbFavorite: CheckBox
+    private lateinit var statsViewModel: StatsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
-        // Iniciar vistaa
+        statsViewModel = ViewModelProvider(this).get(StatsViewModel::class.java)
+
         btnAtras = findViewById(R.id.btnAtras)
         btnRess = findViewById(R.id.btnRess)
         cbFavorite = findViewById(R.id.csR1)
+
         val restaurant = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra("EXTRA_RESTAURANT", Restaurant::class.java)
         } else {
@@ -30,38 +34,47 @@ class activity_detail : AppCompatActivity() {
         }
 
         if (restaurant == null) {
-            Toast.makeText(this, "Error al carregar les dades", Toast.LENGTH_SHORT).show()
             finish()
             return
         }
 
-        // Llenar la UI con ? porque sino peta
-        findViewById<TextView>(R.id.tvRestaurantNameDetail).text = restaurant.name ?: "Sense nom"
-        findViewById<TextView>(R.id.tvRatingDetail).text = restaurant.rating ?: "0.0"
-        findViewById<TextView>(R.id.tvTipus).text = restaurant.tipusCuina ?: "No especificat"
-        findViewById<TextView>(R.id.tvPreu).text = restaurant.rangPreu ?: "---"
-        findViewById<TextView>(R.id.tvUbi).text = restaurant.ubicacio ?: "Ubicació no disponible"
-        findViewById<TextView>(R.id.tvTel).text = restaurant.telefon ?: "Sense telèfon"
+        val tvName = findViewById<TextView>(R.id.tvRestaurantNameDetail)
+        val tvRating = findViewById<TextView>(R.id.tvRatingDetail)
+        val tvTipus = findViewById<TextView>(R.id.tvTipus)
+        val tvPreu = findViewById<TextView>(R.id.tvPreu)
+        val tvUbi = findViewById<TextView>(R.id.tvUbi)
+        val tvTel = findViewById<TextView>(R.id.tvTel)
 
-        // Estado inicial del CheckBox
+        tvName.text = restaurant.name ?: "Sense nom"
+        tvRating.text = restaurant.rating ?: "0.0"
+        tvTipus.text = restaurant.tipusCuina ?: "No especificat"
+        tvPreu.text = restaurant.rangPreu ?: "---"
+        tvUbi.text = restaurant.ubicacio ?: "Ubicació no disponible"
+        tvTel.text = restaurant.telefon ?: "Sense telèfon"
+
         cbFavorite.isChecked = restaurant.isFavorite
+
+        when (restaurant.tipusCuina?.lowercase()) {
+            "japonès" -> statsViewModel.trackFilter("gluten")
+            "italià" -> statsViewModel.trackFilter("lactose")
+            "vegetarià" -> statsViewModel.trackFilter("halal")
+            "marisc" -> statsViewModel.trackFilter("marisc")
+            "ou" -> statsViewModel.trackFilter("ou")
+            else -> statsViewModel.trackFilter("kosher")
+        }
 
         btnAtras.setOnClickListener { finish() }
 
-        // Favoritos
         cbFavorite.setOnCheckedChangeListener { _, isChecked ->
             lifecycleScope.launch {
                 try {
                     if (isChecked) {
                         ItemAPI.API().addFavorite(mapOf("id" to restaurant.id))
-                        Toast.makeText(this@activity_detail, "Afegit a preferits", Toast.LENGTH_SHORT).show()
                     } else {
                         ItemAPI.API().deleteFavorite(restaurant.id)
-                        Toast.makeText(this@activity_detail, "Eliminat de preferits", Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: Exception) {
-                    Toast.makeText(this@activity_detail, "Error de connexió", Toast.LENGTH_SHORT).show()
-                    cbFavorite.isChecked = !isChecked // Revertir visualmente si falla
+                    cbFavorite.isChecked = !isChecked
                 }
             }
         }

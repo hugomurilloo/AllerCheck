@@ -167,7 +167,7 @@
         app:layout_constraintTop_toBottomOf="@id/btnRessenyes"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="80dp"
         android:text="@string/tancar_sessi"
         android:fontFamily="serif"
         android:textStyle="bold"
@@ -188,4 +188,19 @@
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/bottom_nav_menu" />
 
+    <Button
+        android:id="@+id/btnStats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/btnRessenyes"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/estad_stiques_s"
+        android:fontFamily="serif"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:backgroundTint="@color/verde"
+        app:cornerRadius="5dp"
+        android:padding="10dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

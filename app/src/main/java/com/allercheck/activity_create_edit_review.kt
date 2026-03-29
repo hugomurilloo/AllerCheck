@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.launch
@@ -19,6 +20,7 @@ class activity_create_edit_review : AppCompatActivity() {
     private lateinit var reviewEditText: TextInputEditText
     private lateinit var csR1: CheckBox
     private lateinit var rgEstrellas: RadioGroup
+    private lateinit var statsViewModel: StatsViewModel
 
     private var existingReview: Ressenya? = null
     private var restaurantId: String = "1"
@@ -28,7 +30,8 @@ class activity_create_edit_review : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_edit_review)
 
-        // Inicializar vistas
+        statsViewModel = ViewModelProvider(this)[StatsViewModel::class.java]
+
         btnAtras = findViewById(R.id.btnAtras)
         btnGuardar = findViewById(R.id.btnGuardar)
         btnEliminar = findViewById(R.id.btnEliminar)
@@ -36,6 +39,7 @@ class activity_create_edit_review : AppCompatActivity() {
         reviewEditText = findViewById(R.id.text_input_edit_text)
         csR1 = findViewById(R.id.csR1)
         rgEstrellas = findViewById(R.id.rgEstrellas)
+
         if (intent.hasExtra("EXTRA_REVIEW")) {
             existingReview = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 intent.getParcelableExtra("EXTRA_REVIEW", Ressenya::class.java)
@@ -45,7 +49,6 @@ class activity_create_edit_review : AppCompatActivity() {
             }
         }
 
-        // Datos del restaurante
         restaurantId = intent.getStringExtra("REST_ID") ?: "1"
         restaurantName = intent.getStringExtra("REST_NAME") ?: "Restaurant"
 
@@ -55,11 +58,9 @@ class activity_create_edit_review : AppCompatActivity() {
             csR1.isChecked = existingReview?.confirmed ?: false
             setRating(existingReview?.stars ?: 0)
             btnEliminar.visibility = View.VISIBLE
-
-              restaurantId = existingReview!!.restaurantId
+            restaurantId = existingReview!!.restaurantId
             restaurantName = existingReview!!.restaurantName
         } else {
-            // MODO NUEVA RESEÑA
             tvTitulo.text = getString(R.string.nova_ressenya)
             btnEliminar.visibility = View.GONE
         }
@@ -87,7 +88,9 @@ class activity_create_edit_review : AppCompatActivity() {
             try {
                 val response = if (existingReview == null) {
                     val newReview = Ressenya("0", restaurantId, restaurantName, stars, text, confirmed)
-                    ItemAPI.API().createReview(newReview)
+                    val res = ItemAPI.API().createReview(newReview)
+                    if (res.isSuccessful) statsViewModel.trackReview()
+                    res
                 } else {
                     val updated = existingReview!!.copy(stars = stars, reviewText = text, confirmed = confirmed)
                     ItemAPI.API().updateReview(updated.id, updated)

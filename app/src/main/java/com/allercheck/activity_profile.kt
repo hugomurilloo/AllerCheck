@@ -66,6 +66,10 @@ class activity_profile : AppCompatActivity() {
             startActivity(intent)
         }
 
+        findViewById<Button>(R.id.btnStats).setOnClickListener {
+            startActivity(Intent(this, activity_stats::class.java))
+        }
+
         // NAV
         bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {

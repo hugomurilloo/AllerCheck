@@ -7,9 +7,9 @@ import android.util.Log
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +19,8 @@ import kotlinx.coroutines.launch
 class activity_principal : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
+    private lateinit var statsViewModel: StatsViewModel
+    private var startTime: Long = 0
     private var restaurantAdapter: RestaurantAdapter = RestaurantAdapter(mutableListOf()) { restaurant ->
         val intent = Intent(this, activity_detail::class.java)
         intent.putExtra("EXTRA_RESTAURANT", restaurant)
@@ -29,7 +31,8 @@ class activity_principal : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_principal)
 
-        // INICIALIZAR VISTAS
+        // INICIALIZAR
+        statsViewModel = ViewModelProvider(this).get(StatsViewModel::class.java)
         val btnPref: ImageButton = findViewById(R.id.btnPref)
         val btnRess: ImageButton = findViewById(R.id.btnRess)
         val bottomNavigation: BottomNavigationView = findViewById(R.id.bottom_navigation)
@@ -41,12 +44,10 @@ class activity_principal : AppCompatActivity() {
 
         // LISTENERS
         btnPref.setOnClickListener {
-            val intent = Intent(this, activity_config_restrictions::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, activity_config_restrictions::class.java))
         }
         btnRess.setOnClickListener {
-            val intent = Intent(this, activity_review::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, activity_review::class.java))
         }
         bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -63,7 +64,21 @@ class activity_principal : AppCompatActivity() {
         }
     }
 
-    // USUARIO VUELVE A LA PANTALLA
+    // REGISTRA TIEMPO AL INICIAR
+    override fun onStart() {
+        super.onStart()
+        startTime = System.currentTimeMillis()
+    }
+
+    // CALCULA Y GUARDA TIEMPO AL SALIR
+    override fun onStop() {
+        super.onStop()
+        val secondsElapsed = (System.currentTimeMillis() - startTime) / 1000
+        if (secondsElapsed > 0) {
+            statsViewModel.addTime(secondsElapsed)
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         loadAndShowFilters()
@@ -72,47 +87,27 @@ class activity_principal : AppCompatActivity() {
 
     private fun loadRestaurantsFromApi() {
         val sharedPreferences = getSharedPreferences(activity_config_restrictions.PREFS_NAME, Context.MODE_PRIVATE)
-        val filtreSenseGluten = sharedPreferences.getBoolean(activity_config_restrictions.KEY_GLUTEN, false)
-        val filtreSenseLactosa = sharedPreferences.getBoolean(activity_config_restrictions.KEY_LACTOSA, false)
-        val filtreSenseFruitsSecs = sharedPreferences.getBoolean(activity_config_restrictions.KEY_FRUITS_SECS, false)
-        val filtreSenseMarisc = sharedPreferences.getBoolean(activity_config_restrictions.KEY_MARISC, false)
-        val filtreVega = sharedPreferences.getBoolean(activity_config_restrictions.KEY_VEGA, false)
-        val filtreHalal = sharedPreferences.getBoolean(activity_config_restrictions.KEY_HALAL, false)
-        val filtreKosher = sharedPreferences.getBoolean(activity_config_restrictions.KEY_KOSHER, false)
-        val filtreSenseOu = sharedPreferences.getBoolean(activity_config_restrictions.KEY_OU, false)
-
         lifecycleScope.launch {
             try {
                 val response = ItemAPI.API().getRestaurants(
-                    senseGluten = if (filtreSenseGluten) true else null,
-                    senseLactosa = if (filtreSenseLactosa) true else null,
-                    senseFruitsSecs = if (filtreSenseFruitsSecs) true else null,
-                    senseMarisc = if (filtreSenseMarisc) true else null,
-                    esVega = if (filtreVega) true else null,
-                    esHalal = if (filtreHalal) true else null,
-                    esKosher = if (filtreKosher) true else null,
-                    teOu = if (filtreSenseOu) true else null
+                    senseGluten = if (sharedPreferences.getBoolean(activity_config_restrictions.KEY_GLUTEN, false)) true else null,
+                    senseLactosa = if (sharedPreferences.getBoolean(activity_config_restrictions.KEY_LACTOSA, false)) true else null,
+                    senseFruitsSecs = if (sharedPreferences.getBoolean(activity_config_restrictions.KEY_FRUITS_SECS, false)) true else null,
+                    senseMarisc = if (sharedPreferences.getBoolean(activity_config_restrictions.KEY_MARISC, false)) true else null,
+                    esVega = if (sharedPreferences.getBoolean(activity_config_restrictions.KEY_VEGA, false)) true else null,
+                    esHalal = if (sharedPreferences.getBoolean(activity_config_restrictions.KEY_HALAL, false)) true else null,
+                    esKosher = if (sharedPreferences.getBoolean(activity_config_restrictions.KEY_KOSHER, false)) true else null,
+                    teOu = if (sharedPreferences.getBoolean(activity_config_restrictions.KEY_OU, false)) true else null
                 )
-
-                if (response.isSuccessful) {
-                    val restaurants = response.body() ?: emptyList()
-                    restaurantAdapter.updateRestaurants(restaurants)
-                } else {
-                    Log.e("Principal", "Error HTTP: ${response.code()}")
-                }
-            } catch (e: Exception) {
-                Log.e("Principal", "Error de conexión", e)
-            }
+                if (response.isSuccessful) restaurantAdapter.updateRestaurants(response.body() ?: emptyList())
+            } catch (e: Exception) { Log.e("Principal", "Error", e) }
         }
     }
 
     private fun loadAndShowFilters() {
         val sharedPreferences = getSharedPreferences(activity_config_restrictions.PREFS_NAME, Context.MODE_PRIVATE)
         val filtersContainer: LinearLayout = findViewById(R.id.llFiltersContainer)
-
-        if (filtersContainer.childCount > 1) {
-            filtersContainer.removeViews(1, filtersContainer.childCount - 1)
-        }
+        if (filtersContainer.childCount > 1) filtersContainer.removeViews(1, filtersContainer.childCount - 1)
 
         fun addFilterPill(text: String) {
             val pill = TextView(this).apply {
@@ -120,41 +115,19 @@ class activity_principal : AppCompatActivity() {
                 textSize = 11f
                 setTextColor(ContextCompat.getColor(this@activity_principal, R.color.white))
                 background = ContextCompat.getDrawable(this@activity_principal, R.drawable.button_background)
-                val horizontalPadding = (12 * resources.displayMetrics.density).toInt()
-                val verticalPadding = (4 * resources.displayMetrics.density).toInt()
-                setPadding(horizontalPadding, verticalPadding, horizontalPadding, verticalPadding)
-                val params = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                ).apply { marginStart = (10 * resources.displayMetrics.density).toInt() }
-                layoutParams = params
+                setPadding(30, 10, 30, 10)
+                layoutParams = LinearLayout.LayoutParams(-2, -2).apply { marginStart = 20 }
             }
             filtersContainer.addView(pill)
         }
 
-        // FILTORS PILLS LAS REDONDITAS
-        if (sharedPreferences.getBoolean(activity_config_restrictions.KEY_GLUTEN, false))
-            addFilterPill(getString(R.string.x_gluten))
-
-        if (sharedPreferences.getBoolean(activity_config_restrictions.KEY_LACTOSA, false))
-            addFilterPill(getString(R.string.x_lacotsa))
-
-        if (sharedPreferences.getBoolean(activity_config_restrictions.KEY_FRUITS_SECS, false))
-            addFilterPill(getString(R.string.fruits_secs))
-
-        if (sharedPreferences.getBoolean(activity_config_restrictions.KEY_MARISC, false))
-            addFilterPill(getString(R.string.marisc))
-
-        if (sharedPreferences.getBoolean(activity_config_restrictions.KEY_VEGA, false))
-            addFilterPill(getString(R.string.vega))
-
-        if (sharedPreferences.getBoolean(activity_config_restrictions.KEY_HALAL, false))
-            addFilterPill(getString(R.string.halal))
-
-        if (sharedPreferences.getBoolean(activity_config_restrictions.KEY_KOSHER, false))
-            addFilterPill(getString(R.string.kosher))
-
-        if (sharedPreferences.getBoolean(activity_config_restrictions.KEY_OU, false))
-            addFilterPill(getString(R.string.ou))
+        if (sharedPreferences.getBoolean(activity_config_restrictions.KEY_GLUTEN, false)) addFilterPill(getString(R.string.x_gluten))
+        if (sharedPreferences.getBoolean(activity_config_restrictions.KEY_LACTOSA, false)) addFilterPill(getString(R.string.x_lacotsa))
+        if (sharedPreferences.getBoolean(activity_config_restrictions.KEY_FRUITS_SECS, false)) addFilterPill(getString(R.string.fruits_secs))
+        if (sharedPreferences.getBoolean(activity_config_restrictions.KEY_MARISC, false)) addFilterPill(getString(R.string.marisc))
+        if (sharedPreferences.getBoolean(activity_config_restrictions.KEY_VEGA, false)) addFilterPill(getString(R.string.vega))
+        if (sharedPreferences.getBoolean(activity_config_restrictions.KEY_HALAL, false)) addFilterPill(getString(R.string.halal))
+        if (sharedPreferences.getBoolean(activity_config_restrictions.KEY_KOSHER, false)) addFilterPill(getString(R.string.kosher))
+        if (sharedPreferences.getBoolean(activity_config_restrictions.KEY_OU, false)) addFilterPill(getString(R.string.ou))
     }
 }
