@@ -4,73 +4,48 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
-import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class activity_profile : AppCompatActivity() {
 
-    // VARIABLES
-    lateinit var btnAtras: ImageButton
-    lateinit var btnResenas: ImageButton
-    lateinit var btnRestriccions: Button
-    lateinit var btnRessenyes: Button
-    lateinit var btnTancarSessio: Button
-    private lateinit var bottomNavigation: BottomNavigationView
+    private lateinit var voiceManager: VoiceCommandManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_profile)
 
-        // INICIALIZAR
-        btnAtras = findViewById(R.id.btnAtras)
-        btnResenas = findViewById(R.id.btnResenas)
-        btnRestriccions = findViewById(R.id.btnRestriccions)
-        btnRessenyes = findViewById(R.id.btnRessenyes)
-        btnTancarSessio = findViewById(R.id.btnTancarSessio)
-        bottomNavigation = findViewById(R.id.bottom_navigation)
-
+        val btnAtras: ImageButton = findViewById(R.id.btnAtras)
+        val btnResenas: ImageButton = findViewById(R.id.btnResenas)
+        val btnMic: ImageButton = findViewById(R.id.btnMic)
+        val btnRestriccions: Button = findViewById(R.id.btnRestriccions)
+        val btnRessenyes: Button = findViewById(R.id.btnRessenyes)
+        val btnStats: Button = findViewById(R.id.btnStats)
+        val btnTancarSessio: Button = findViewById(R.id.btnTancarSessio)
+        val bottomNavigation: BottomNavigationView = findViewById(R.id.bottom_navigation)
         bottomNavigation.selectedItemId = R.id.navigation_profile
 
-        // BOTÓN "ATRAS"
-        btnAtras.setOnClickListener {
-            finish()
-        }
+        // INICIALIZAR VOZ
+        voiceManager = VoiceCommandManager(this)
+        voiceManager.setupVoiceCommand(btnMic)
 
-        // BOTÓN "RESEÑAS" (Header)
+        btnAtras.setOnClickListener { finish() }
         btnResenas.setOnClickListener {
-            val intent = Intent(this, activity_review::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, activity_review::class.java))
         }
-
-        // BOTÓN "LES MEVES RESTRICCIONS"
         btnRestriccions.setOnClickListener {
-            val intent = Intent(this, activity_config_restrictions::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, activity_config_restrictions::class.java))
         }
-
-        // BOTÓN "LES MEVES RESSENYES"
         btnRessenyes.setOnClickListener {
-            val intent = Intent(this, activity_review::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, activity_review::class.java))
         }
-
-        // BOTÓN "TANCAR SESSIÓ"
-        btnTancarSessio.setOnClickListener {
-            val intent = Intent(this, activity_onboarding::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-        }
-
-        findViewById<Button>(R.id.btnStats).setOnClickListener {
+        btnStats.setOnClickListener {
             startActivity(Intent(this, activity_stats::class.java))
         }
+        btnTancarSessio.setOnClickListener {
+            finishAffinity()
+        }
 
-        // NAV
         bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
@@ -84,5 +59,10 @@ class activity_profile : AppCompatActivity() {
                 else -> true
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        voiceManager.destroy()
     }
 }

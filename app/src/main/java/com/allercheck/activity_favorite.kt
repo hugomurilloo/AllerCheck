@@ -5,36 +5,34 @@ import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-
 import androidx.lifecycle.lifecycleScope
-
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-
 import kotlinx.coroutines.launch
 
 class activity_favorite : AppCompatActivity() {
 
-    private lateinit var btnAtras: ImageButton
-    private lateinit var btnResenas: ImageButton
-    private lateinit var bottomNavigation: BottomNavigationView
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var voiceManager: VoiceCommandManager
     private lateinit var favoriteAdapter: FavoriteRestaurantAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorite)
 
-        btnAtras = findViewById(R.id.btnAtras)
-        btnResenas = findViewById(R.id.btnResenas)
-        bottomNavigation = findViewById(R.id.bottom_navigation)
+        val btnAtras: ImageButton = findViewById(R.id.btnAtras)
+        val btnResenas: ImageButton = findViewById(R.id.btnResenas)
+        val btnMic: ImageButton = findViewById(R.id.btnMic)
+        val bottomNavigation: BottomNavigationView = findViewById(R.id.bottom_navigation)
         bottomNavigation.selectedItemId = R.id.navigation_favorites
 
-        recyclerView = findViewById(R.id.recyclerViewFavorites)
+        // INICIALIZAR VOZ
+        voiceManager = VoiceCommandManager(this)
+        voiceManager.setupVoiceCommand(btnMic)
+
+        val recyclerView: RecyclerView = findViewById(R.id.recyclerViewFavorites)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Lista vacia y cargar de la API
         favoriteAdapter = FavoriteRestaurantAdapter(
             restaurants = mutableListOf(),
             onItemClick = { restaurant ->
@@ -54,6 +52,7 @@ class activity_favorite : AppCompatActivity() {
         btnResenas.setOnClickListener {
             startActivity(Intent(this, activity_review::class.java))
         }
+
         bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
@@ -69,7 +68,6 @@ class activity_favorite : AppCompatActivity() {
         }
     }
 
-    // Cargar favoritos
     private fun loadFavoritesFromApi() {
         lifecycleScope.launch {
             try {
@@ -77,8 +75,6 @@ class activity_favorite : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val favorites = response.body() ?: emptyList()
                     favoriteAdapter.updateFavorites(favorites)
-                } else {
-                    Toast.makeText(this@activity_favorite, "Error HTTP: ${response.code()}", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 Toast.makeText(this@activity_favorite, "Error de connexió", Toast.LENGTH_SHORT).show()
@@ -86,18 +82,21 @@ class activity_favorite : AppCompatActivity() {
         }
     }
 
-    // Eliminar favorito
     private fun deleteFavoriteFromApi(restaurant: Restaurant) {
         lifecycleScope.launch {
             try {
                 val response = ItemAPI.API().deleteFavorite(restaurant.id)
                 if (response.isSuccessful) {
-                    Toast.makeText(this@activity_favorite, "Eliminat correctament", Toast.LENGTH_SHORT).show()
-                    loadFavoritesFromApi() // Recargar lista
+                    loadFavoritesFromApi()
                 }
             } catch (e: Exception) {
                 Toast.makeText(this@activity_favorite, "Error al eliminar", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        voiceManager.destroy()
     }
 }

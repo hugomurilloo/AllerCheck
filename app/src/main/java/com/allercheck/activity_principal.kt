@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -20,7 +21,9 @@ class activity_principal : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var statsViewModel: StatsViewModel
+    private lateinit var voiceManager: VoiceCommandManager
     private var startTime: Long = 0
+
     private var restaurantAdapter: RestaurantAdapter = RestaurantAdapter(mutableListOf()) { restaurant ->
         val intent = Intent(this, activity_detail::class.java)
         intent.putExtra("EXTRA_RESTAURANT", restaurant)
@@ -31,24 +34,29 @@ class activity_principal : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_principal)
 
-        // INICIALIZAR
         statsViewModel = ViewModelProvider(this).get(StatsViewModel::class.java)
+
         val btnPref: ImageButton = findViewById(R.id.btnPref)
         val btnRess: ImageButton = findViewById(R.id.btnRess)
+        val btnMic: ImageButton = findViewById(R.id.btnMic)
         val bottomNavigation: BottomNavigationView = findViewById(R.id.bottom_navigation)
         bottomNavigation.selectedItemId = R.id.navigation_home
+
+        // INICIALIZAR VOZ
+        voiceManager = VoiceCommandManager(this)
+        voiceManager.setupVoiceCommand(btnMic)
 
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = restaurantAdapter
 
-        // LISTENERS
         btnPref.setOnClickListener {
             startActivity(Intent(this, activity_config_restrictions::class.java))
         }
         btnRess.setOnClickListener {
             startActivity(Intent(this, activity_review::class.java))
         }
+
         bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_favorites -> {
@@ -64,19 +72,22 @@ class activity_principal : AppCompatActivity() {
         }
     }
 
-    // REGISTRA TIEMPO AL INICIAR
     override fun onStart() {
         super.onStart()
         startTime = System.currentTimeMillis()
     }
 
-    // CALCULA Y GUARDA TIEMPO AL SALIR
     override fun onStop() {
         super.onStop()
         val secondsElapsed = (System.currentTimeMillis() - startTime) / 1000
         if (secondsElapsed > 0) {
             statsViewModel.addTime(secondsElapsed)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        voiceManager.destroy()
     }
 
     override fun onResume() {
