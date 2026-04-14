@@ -9,6 +9,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class activity_profile : AppCompatActivity() {
 
+
+    //VOICE MANAGER
     private lateinit var voiceManager: VoiceCommandManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,6 +19,8 @@ class activity_profile : AppCompatActivity() {
 
         val btnAtras: ImageButton = findViewById(R.id.btnAtras)
         val btnResenas: ImageButton = findViewById(R.id.btnResenas)
+
+        // BOTON MIC
         val btnMic: ImageButton = findViewById(R.id.btnMic)
         val btnRestriccions: Button = findViewById(R.id.btnRestriccions)
         val btnRessenyes: Button = findViewById(R.id.btnRessenyes)

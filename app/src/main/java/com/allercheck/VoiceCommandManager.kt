@@ -18,13 +18,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
-//Control por voz
 class VoiceCommandManager(private val activity: AppCompatActivity) {
 
     private var speechRecognizer: SpeechRecognizer? = null
     private var isListening = false
 
     fun setupVoiceCommand(btnMic: ImageButton) {
+        // PREFERENCIAS
+        // VOZ ON? o VOZ OFF?
         val sharedPreferences = activity.getSharedPreferences(activity_config_restrictions.PREFS_NAME, Context.MODE_PRIVATE)
         val isVoiceEnabled = sharedPreferences.getBoolean("VOICE_ENABLED", true)
 
@@ -33,6 +34,7 @@ class VoiceCommandManager(private val activity: AppCompatActivity) {
             return
         }
 
+        // INICIALIZACIÓN
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(activity)
 
         val recognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
@@ -40,9 +42,11 @@ class VoiceCommandManager(private val activity: AppCompatActivity) {
             putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ca-ES")
         }
 
+        // ASIGNAR LISTENER
         speechRecognizer?.setRecognitionListener(object : RecognitionListener {
             override fun onReadyForSpeech(params: Bundle?) {
                 isListening = true
+                // CAMBIO IMG
                 btnMic.setImageResource(R.drawable.baseline_mic_24)
                 Toast.makeText(activity, "Listening...", Toast.LENGTH_SHORT).show()
             }
@@ -56,6 +60,7 @@ class VoiceCommandManager(private val activity: AppCompatActivity) {
             }
 
             override fun onError(error: Int) {
+                // GESTIÓN DE ERRORES
                 val message = when (error) {
                     SpeechRecognizer.ERROR_AUDIO -> "Audio error"
                     SpeechRecognizer.ERROR_NO_MATCH -> "No match found"
@@ -67,10 +72,7 @@ class VoiceCommandManager(private val activity: AppCompatActivity) {
                 resetButton(btnMic)
             }
 
-            override fun onEndOfSpeech() {
-                // Wait for results
-            }
-
+            override fun onEndOfSpeech() {}
             override fun onBeginningOfSpeech() {}
             override fun onRmsChanged(rmsdB: Float) {}
             override fun onBufferReceived(buffer: ByteArray?) {}
@@ -79,11 +81,14 @@ class VoiceCommandManager(private val activity: AppCompatActivity) {
         })
 
         btnMic.setOnClickListener {
-            // CHECK PERMISSION
+            // PERMISOS EN TIEMPO DE EJECUCIÓN (PopUp)
+            // A partir de Android 6.0, no basta con el Manifest.
             if (ContextCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.RECORD_AUDIO), 100)
                 Toast.makeText(activity, "Microphone permission required", Toast.LENGTH_SHORT).show()
             } else {
+
+                // ACABAR ESCUCHA
                 if (!isListening) {
                     try {
                         speechRecognizer?.startListening(recognizerIntent)
@@ -97,15 +102,17 @@ class VoiceCommandManager(private val activity: AppCompatActivity) {
         }
     }
 
+    // MIC A OFF
     private fun resetButton(btnMic: ImageButton) {
         isListening = false
         btnMic.setImageResource(R.drawable.baseline_mic_off_24)
     }
 
+
+    // ORDENES
     private fun handleVoiceCommand(command: String?) {
         if (command == null) return
         Toast.makeText(activity, "Command: $command", Toast.LENGTH_SHORT).show()
-
         when {
             command.contains("principal") || command.contains("lista") -> {
                 activity.startActivity(Intent(activity, activity_principal::class.java))
@@ -124,7 +131,6 @@ class VoiceCommandManager(private val activity: AppCompatActivity) {
             }
         }
     }
-
     fun destroy() {
         speechRecognizer?.destroy()
     }
