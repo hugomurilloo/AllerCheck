@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
+//Control por voz
 class VoiceCommandManager(private val activity: AppCompatActivity) {
 
     private var speechRecognizer: SpeechRecognizer? = null
