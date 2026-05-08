@@ -6,27 +6,28 @@ import androidx.lifecycle.ViewModel
 
 class RegisterViewModel : ViewModel() {
 
-    // Lista usuarios
     private val registeredUsers = mutableListOf<User>()
 
-    // ESTADOS PRIVADOS
+    // ESTATS PRIVATS
     private val _name = MutableLiveData<String>()
     private val _email = MutableLiveData<String>()
     private val _password = MutableLiveData<String>()
+    private val _confirmPassword = MutableLiveData<String>() // Nou
+
     private val _nameError = MutableLiveData<String?>()
     private val _emailError = MutableLiveData<String?>()
     private val _passwordError = MutableLiveData<String?>()
+    private val _confirmPasswordError = MutableLiveData<String?>() // Nou
+
     private val _registerSuccess = MutableLiveData<Boolean>()
     private val _registerError = MutableLiveData<String?>()
     private val _isFormValid = MutableLiveData<Boolean>()
 
-    // ESTADOS PUBLICOS
-    val name: LiveData<String> = _name
-    val email: LiveData<String> = _email
-    val password: LiveData<String> = _password
+    // ESTATS PÚBLICS
     val nameError: LiveData<String?> = _nameError
     val emailError: LiveData<String?> = _emailError
     val passwordError: LiveData<String?> = _passwordError
+    val confirmPasswordError: LiveData<String?> = _confirmPasswordError
     val registerSuccess: LiveData<Boolean> = _registerSuccess
     val registerError: LiveData<String?> = _registerError
     val isFormValid: LiveData<Boolean> = _isFormValid
@@ -36,7 +37,6 @@ class RegisterViewModel : ViewModel() {
         _registerSuccess.value = false
     }
 
-    // Metodos para el View
     fun onNameChanged(name: String) {
         _name.value = name
         validateForm()
@@ -52,41 +52,35 @@ class RegisterViewModel : ViewModel() {
         validateForm()
     }
 
-    private fun validateForm() {
-        val nameValid = isValidName(_name.value ?: "")
-        val emailValid = isEmailValid(_email.value ?: "")
-        val passwordValid = isPasswordValid(_password.value ?: "")
-
-        _nameError.value = if (!nameValid) "El nom no pot ser buit" else null
-        _emailError.value = if (!emailValid) {
-            "L'email no és vàlid"
-        } else {
-            null
-        }
-        _passwordError.value = if (!passwordValid) "Mínim 8 caràcters" else null
-
-        _isFormValid.value = nameValid && emailValid && passwordValid
+    fun onConfirmPasswordChanged(password: String) {
+        _confirmPassword.value = password
+        validateForm()
     }
 
-    private fun isValidName(name: String): Boolean = name.trim().isNotEmpty()
-    private fun isEmailValid(email: String): Boolean = email.isNotBlank() && email.contains("@")
-    private fun isPasswordValid(password: String): Boolean = password.length >= 8
+    private fun validateForm() {
+        val nameVal = _name.value ?: ""
+        val emailVal = _email.value ?: ""
+        val passVal = _password.value ?: ""
+        val confVal = _confirmPassword.value ?: ""
 
-    // METODO PARA CREAR LOS USUARIOS
+        val nameValid = nameVal.trim().isNotEmpty()
+        val emailValid = emailVal.contains("@") && emailVal.isNotBlank()
+        val passwordValid = passVal.length >= 8
+        val passwordsMatch = passVal == confVal && confVal.isNotEmpty()
+
+        _nameError.value = if (!nameValid && nameVal.isNotEmpty()) "El nom no pot ser buit" else null
+        _emailError.value = if (!emailValid && emailVal.isNotEmpty()) "L'email no és vàlid" else null
+        _passwordError.value = if (!passwordValid && passVal.isNotEmpty()) "Mínim 8 caràcters" else null
+        _confirmPasswordError.value = if (!passwordsMatch && confVal.isNotEmpty()) "Les contrasenyes no coincideixen" else null
+
+        _isFormValid.value = nameValid && emailValid && passwordValid && passwordsMatch
+    }
+
     fun register() {
         if (_isFormValid.value == true) {
-            val name = _name.value!!
-            val email = _email.value!!
-            val password = _password.value!!
-
-            val newUser = User(name, email, password)
+            val newUser = User(_name.value!!, _email.value!!, _password.value!!)
             registeredUsers.add(newUser)
-
             _registerSuccess.value = true
-            _registerError.value = null
-
-        } else {
-            _registerSuccess.value = false
         }
     }
 }
